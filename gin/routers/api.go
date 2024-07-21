@@ -8,7 +8,6 @@ import (
 func RegisterRouters(r *gin.Engine) {
 
 	//TOswag：
-
 	r.GET("/api", controllers.Welcome)
 
 	//TOswag：
