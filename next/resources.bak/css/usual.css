@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+div.chickenBackground {
+    background: url(static/img/runningChicken.gif) no-repeat;
+}
+
+div.showborder {
+    border: 1px solid greenyellow;
+}
+
+body {
+    background-color: #3a3c40;
+}
+
+h1 {
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+h2 {
+    font-size: 20px;
+    color: red;
+    text-align: center;
+}
+
+p {
+    color: #cbcbcb;
+    font-family: 宋体, PingFang SC, HarmonyOS_Medium, Helvetica Neue, Microsoft YaHei, sans-serif;
+    font-size: 15px;
+}
+
+a {
+    color: aqua;
+    font-family: "YaHei";
+    font-size: 12px;
+}
+
+a:link {
+    color: #00FF00;
+    font-family: "YaHei";
+    font-size: 12px;
+}
+
+a:visited {
+    color: cornflowerblue;
+}
+
+a:hover {
+    color: green;
+}
+
+a::before {
+    content: "<";
+    color: rgb(255, 221, 0);
+    font-size: 12px;
+}
+
+a::after {
+    content: ">";
+    color: rgb(255, 221, 0);
+    font-size: 12px;
+}
+
+img {
+    height: 50px;
+    width: 50px;
+}
+
+.button {
+    background-color: #4CAF50;
+
+    border: 1px solid red;
+
+}
+
+button.aqua {
+    background-color: aqua;
+    height: 30px;
+    width: 80px;
+    font-size: 12px;
+}
+
+/* 下面是一些class和id
+------------------------------------------------------------------------------------------- */
+.pages {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+}
+
+/* 这个类的图片点击能返回主页 ，所以是个小icon */
+img.icon {
+    width: 30px;
+    height: 30px;
+
+}
+
+/* 下面是自己写的元素
+-------------------------------------------------------------------------------------------- */
+
+/* 很小的文字 */
+smallElement {
+    color: blue;
+    font-family: 宋体;
+    font-size: 8px;
+}
