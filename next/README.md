@@ -1,24 +1,36 @@
-# GinDemo_front
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## react
+## Getting Started
 
-```bash
-npx create-next-app {project-name} # 脚手架 -> 之后要把next.config.mjs里改成const nextConfig = { output: 'export', };
-npm run dev # 在3000端口启动调试
-npm run build #编译，输出会在一个新建的./out 文件夹里面
-```
-
-## docker
+First, run the development server:
 
 ```bash
-# 制作镜像：  
-docker build -t kizunaiix/gindemo-nginx:v0.1 .  # -t是打tag ，注意最后有个"." ，指使用当前目录
-
-# (调试)运行这个命令:  ->  调试的时候可以用 -p 8080:80, 这样用的就是宿主机的8080端口了
-
-npm start
-    # docker run -itd --name gindemo-nginx -v /home/yaodong/codings/GinDemo_front/reactapp/build:/usr/share/nginx:ro -p 8080:80 kizunaiix/gindemo-nginx:v0.1  没必要用这个命令，用npm就行了
-
-# (部署)运行这个命令：  
-docker run -itd --name gindemo_nginx -p 80:80 -d kizunaiix/nginx_gindemo_fe:v1.2  
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

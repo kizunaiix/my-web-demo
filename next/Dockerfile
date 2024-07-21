@@ -5,12 +5,13 @@ FROM node:lts-alpine3.20
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目的所有文件到工作目录
-COPY my-next-app .
-# COPY my-next-app/.next ./.next
+# 复制项目编译后的文件到工作目录
+COPY .next ./.next
+COPY node_modules ./node_modules
+COPY package.json ./package.json
 
 # 安装依赖
-RUN npm install
+# RUN npm install
 
 # 暴露应用运行的端口，默认是 3000
 EXPOSE 3000

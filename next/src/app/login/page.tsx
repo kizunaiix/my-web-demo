@@ -42,7 +42,7 @@ export default function page() {
               <div className='flex justify-center bg-blue-400'>
                 {Button("注册", "submit", "indigo", () => { })}
                 {Button("登录", "button", "indigo", () => {
-                  fetch("http://localhost:8000/api/login", {
+                  fetch("http://localhost:9000/api/login", {
                     method: "post",
                     headers: {
                       'Content-Type': 'application/json'

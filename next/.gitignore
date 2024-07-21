@@ -1,15 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/reactapp/node_modules
-/reactapp/.pnp
-reactapp/.pnp.js
+node_modules
+.next
 
 # testing
-/reactapp/coverage
+# /reactapp/coverage
 
 # production
-/reactapp/build
+# /reactapp/build
 
 # misc
 reactapp/.DS_Store
