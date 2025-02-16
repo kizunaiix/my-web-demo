@@ -6,6 +6,6 @@ func RegisterRouters(r *gin.Engine) {
 
 	r.GET("/api", Welcome)
 
-	//TOswag：
 	r.POST("/api/login", Login)
+
 }

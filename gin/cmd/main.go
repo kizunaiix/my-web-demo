@@ -28,12 +28,7 @@ func main() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//注册路由
-	// handlers.RegisterRouters(r)
-	func() {
-		r.GET("/api", handlers.Welcome)
-
-		r.POST("/api/login", handlers.Login)
-	}()
+	handlers.RegisterRouters(r)
 
 	r.Run(":9000")
 
