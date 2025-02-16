@@ -1,14 +1,10 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-func Welcome(c *gin.Context) {
-	c.String(http.StatusOK, "welcome to api")
-}
 
 func Login(ctx *gin.Context) {
 	var request struct {

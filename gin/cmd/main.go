@@ -3,10 +3,17 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	api "ki9.com/gin_demo/routers"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	_ "ki9.com/gin_demo/docs" // swagger:这里要用你的实际 `docs` 路径
+	"ki9.com/gin_demo/handlers"
 )
 
-// 😀🆒🐉👌
+// @title 习惯养成 API 文档
+// @version 1.0
+// @description 这是一个基于 Gin 和 RPC 风格的习惯养成 API。
+// @host localhost:9000
+// @BasePath /api
 func main() {
 	r := gin.Default()
 
@@ -17,11 +24,16 @@ func main() {
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
 
-	// r.LoadHTMLGlob("../resources/templates/*.html")
-	// r.Static("static", "../resources/static")
+	// 绑定 Swagger UI路由
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//注册路由
-	api.RegisterRouters(r)
+	// handlers.RegisterRouters(r)
+	func() {
+		r.GET("/api", handlers.Welcome)
+
+		r.POST("/api/login", handlers.Login)
+	}()
 
 	r.Run(":9000")
 
