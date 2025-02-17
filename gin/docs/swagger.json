@@ -9,14 +9,14 @@
     "host": "localhost:9000",
     "basePath": "/api",
     "paths": {
-        "/api/welcome": {
+        "/welcome": {
             "get": {
                 "description": "this api is like a \"hello world\"",
                 "consumes": [
-                    "application/json"
+                    "*/*"
                 ],
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "RPC-like"

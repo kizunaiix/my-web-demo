@@ -15,14 +15,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/welcome": {
+        "/welcome": {
             "get": {
                 "description": "this api is like a \"hello world\"",
                 "consumes": [
-                    "application/json"
+                    "*/*"
                 ],
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "RPC-like"

@@ -6,10 +6,10 @@ info:
   title: 习惯养成 API 文档
   version: "0.1"
 paths:
-  /api/welcome:
+  /welcome:
     get:
       consumes:
-      - application/json
+      - '*/*'
       description: this api is like a "hello world"
       parameters:
       - description: 服务名称
@@ -22,7 +22,7 @@ paths:
         name: method
         type: string
       produces:
-      - application/json
+      - text/plain
       responses:
         "200":
           description: 成功响应

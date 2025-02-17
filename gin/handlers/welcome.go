@@ -7,11 +7,11 @@ import (
 )
 
 // @Tags RPC-like
-// @Router /api/welcome [GET]
+// @Router /welcome [get]
 // @Summary welcome api
 // @Description this api is like a "hello world"
-// @Accept json
-// @Produce json
+// @Accept */*
+// @Produce plain
 // @Param service path string true "服务名称"
 // @Param method query string false "操作方法（create/update/delete）"
 // @Success 200 {object} map[string]interface{} "成功响应"
@@ -20,3 +20,5 @@ import (
 func Welcome(c *gin.Context) {
 	c.String(http.StatusOK, "welcome to api")
 }
+
+// TODO: 看懂这里的第15行
