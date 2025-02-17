@@ -4,13 +4,13 @@ info:
   contact: {}
   description: 这是一个基于 Gin 和 RPC 风格的习惯养成 API。
   title: 习惯养成 API 文档
-  version: "1.0"
+  version: "0.1"
 paths:
-  /api:
+  /api/welcome:
     get:
       consumes:
       - application/json
-      description: 通过 `method` 参数区分创建、更新、删除等操作
+      description: this api is like a "hello world"
       parameters:
       - description: 服务名称
         in: path
@@ -39,7 +39,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: 处理 RPC 风格 API
+      summary: welcome api
       tags:
-      - RPC
+      - RPC-like
 swagger: "2.0"

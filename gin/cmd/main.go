@@ -10,7 +10,7 @@ import (
 )
 
 // @title 习惯养成 API 文档
-// @version 1.0
+// @version 0.1
 // @description 这是一个基于 Gin 和 RPC 风格的习惯养成 API。
 // @host localhost:9000
 // @BasePath /api

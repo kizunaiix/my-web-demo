@@ -15,9 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api": {
+        "/api/welcome": {
             "get": {
-                "description": "通过 ` + "`" + `method` + "`" + ` 参数区分创建、更新、删除等操作",
+                "description": "this api is like a \"hello world\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,9 +25,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "RPC"
+                    "RPC-like"
                 ],
-                "summary": "处理 RPC 风格 API",
+                "summary": "welcome api",
                 "parameters": [
                     {
                         "type": "string",
@@ -73,7 +73,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "0.1",
 	Host:             "localhost:9000",
 	BasePath:         "/api",
 	Schemes:          []string{},

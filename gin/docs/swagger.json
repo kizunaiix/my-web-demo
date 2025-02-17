@@ -4,14 +4,14 @@
         "description": "这是一个基于 Gin 和 RPC 风格的习惯养成 API。",
         "title": "习惯养成 API 文档",
         "contact": {},
-        "version": "1.0"
+        "version": "0.1"
     },
     "host": "localhost:9000",
     "basePath": "/api",
     "paths": {
-        "/api": {
+        "/api/welcome": {
             "get": {
-                "description": "通过 `method` 参数区分创建、更新、删除等操作",
+                "description": "this api is like a \"hello world\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -19,9 +19,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "RPC"
+                    "RPC-like"
                 ],
-                "summary": "处理 RPC 风格 API",
+                "summary": "welcome api",
                 "parameters": [
                     {
                         "type": "string",
