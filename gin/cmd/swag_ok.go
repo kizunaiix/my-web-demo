@@ -2,13 +2,5 @@
 
 package main
 
-import (
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-)
-
-// 该函数只在 `dev` 模式下生效
-func useSwag(r *gin.Engine) {
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-}
+// 该函数仅在go build命令带上-tags dev后生效
+func init() { swagOk = true }

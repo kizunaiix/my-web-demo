@@ -3,9 +3,13 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "ki9.com/gin_demo/docs" // swagger:这里要用你的实际 `docs` 路径
 	"ki9.com/gin_demo/handlers"
 )
+
+var swagOk = false
 
 // @title 习惯养成 API 文档
 // @version 0.2
@@ -23,7 +27,9 @@ func main() {
 	}))
 
 	// 绑定 Swagger UI路由，仅在go build命令带上-tags dev后生效
-	// useSwag(r)
+	if swagOk {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	//注册路由
 	handlers.RegisterRouters(r)
