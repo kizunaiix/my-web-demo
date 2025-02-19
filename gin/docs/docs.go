@@ -73,12 +73,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "0.1",
+	Version:          "0.2",
 	Host:             "localhost:9000",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "习惯养成 API 文档",
-	Description:      "这是一个基于 Gin 和 RPC 风格的习惯养成 API。",
+	Description:      "这是一个基于 Gin 和 RPC 风格的习惯养成 API。应当只有开发环境下能看到该文档。",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
