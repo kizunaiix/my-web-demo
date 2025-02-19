@@ -23,7 +23,7 @@ func main() {
 	}))
 
 	// 绑定 Swagger UI路由，仅在go build命令带上-tags dev后生效
-	useSwag(r)
+	// useSwag(r)
 
 	//注册路由
 	handlers.RegisterRouters(r)
