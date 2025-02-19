@@ -37,3 +37,5 @@ func main() {
 	r.Run(":9000")
 
 }
+
+// TODO：在本文件也写一个init函数，研究一下谁的init先执行
