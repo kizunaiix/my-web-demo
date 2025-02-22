@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags RPC-like
+// @Tags Hello-world-test
 // @Router /welcome [get]
 // @Summary welcome api
 // @Description this api is like a "hello world"
@@ -23,4 +23,3 @@ func Welcome(c *gin.Context) {
 
 // TODO: 看懂这里的第15行
 // TODO: 设计一个OperateList [post]接口，json里通过operation字段决定增删改查
-//...

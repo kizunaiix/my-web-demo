@@ -6,6 +6,43 @@ info:
   title: 习惯养成 API 文档
   version: "0.2"
 paths:
+  /posttest:
+    post:
+      consumes:
+      - application/json
+      description: post to it, when content is "hello api", you get "hello".
+      parameters:
+      - description: 请求体
+        in: body
+        name: request
+        required: true
+        schema:
+          type: string
+      - description: 内容
+        in: path
+        name: content
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功响应
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 请求错误
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 服务不存在
+          schema:
+            additionalProperties: true
+            type: object
+      summary: try a JSON-data to this api
+      tags:
+      - Hello-world-test
   /welcome:
     get:
       consumes:
@@ -41,5 +78,5 @@ paths:
             type: object
       summary: welcome api
       tags:
-      - RPC-like
+      - Hello-world-test
 swagger: "2.0"

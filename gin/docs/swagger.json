@@ -9,6 +9,61 @@
     "host": "localhost:9000",
     "basePath": "/api",
     "paths": {
+        "/posttest": {
+            "post": {
+                "description": "post to it, when content is \"hello api\", you get \"hello\".",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hello-world-test"
+                ],
+                "summary": "try a JSON-data to this api",
+                "parameters": [
+                    {
+                        "description": "请求体",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "内容",
+                        "name": "content",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功响应",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "服务不存在",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/welcome": {
             "get": {
                 "description": "this api is like a \"hello world\"",
@@ -19,7 +74,7 @@
                     "text/plain"
                 ],
                 "tags": [
-                    "RPC-like"
+                    "Hello-world-test"
                 ],
                 "summary": "welcome api",
                 "parameters": [

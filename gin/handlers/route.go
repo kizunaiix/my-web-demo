@@ -14,6 +14,6 @@ func RegisterRouters(r *gin.Engine) {
 
 	r.GET("/api/welcome", Welcome)
 
-	r.POST("/api/login", Login)
+	r.POST("/api/posttest", PostTest)
 
 }
