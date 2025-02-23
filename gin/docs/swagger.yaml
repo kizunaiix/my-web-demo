@@ -1,4 +1,10 @@
 basePath: /api
+definitions:
+  handlers.hellomessage:
+    properties:
+      content:
+        type: string
+    type: object
 host: localhost:9000
 info:
   contact: {}
@@ -14,22 +20,16 @@ paths:
       parameters:
       - description: 请求体
         in: body
-        name: request
+        name: param
         required: true
         schema:
-          type: string
-      - description: 内容
-        in: path
-        name: content
-        type: string
+          $ref: '#/definitions/handlers.hellomessage'
       produces:
       - application/json
       responses:
         "200":
           description: 成功响应
-          schema:
-            additionalProperties: true
-            type: object
+          schema: {}
         "400":
           description: 请求错误
           schema:

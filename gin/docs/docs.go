@@ -31,27 +31,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "请求体",
-                        "name": "request",
+                        "name": "param",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/handlers.hellomessage"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "内容",
-                        "name": "content",
-                        "in": "path"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "成功响应",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
+                        "schema": {}
                     },
                     "400": {
                         "description": "请求错误",
@@ -120,6 +111,16 @@ const docTemplate = `{
                             "additionalProperties": true
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.hellomessage": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
                 }
             }
         }
