@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/posttest": {
             "post": {
-                "description": "post to it, when content is \"hello api\", you get \"hello\".",
+                "description": "post to it, when body is {\"content\": \"hello api\"}, you get 200 with answer",
                 "consumes": [
                     "application/json"
                 ],
@@ -31,7 +31,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "请求体",
-                        "name": "param",
+                        "name": "jsonbody",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -42,7 +42,9 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "成功响应",
-                        "schema": {}
+                        "schema": {
+                            "type": "json"
+                        }
                     },
                     "400": {
                         "description": "请求错误",

@@ -15,8 +15,12 @@ cd到根目录`cd /home/yaodong/codings/my-web-demo/gin`
 
 
 ```go
-// @Param content query|path|header|body|formData string (string)|integer (int, uint, uint32, uint64)|number (float32)|boolean (bool)|user defined struct false "内容"
+// @Param [参数名] [参数类型] [数据类型] [是否必要：false|true] "描述"
 ```
+
+其中：
+- 参数类型有：query | path | header | body | formData
+- 数据类型有：string (string) | integer (int, uint, uint32, uint64) | number (float32) | boolean (bool) | user defined struct
 
 ## 构建命令
 

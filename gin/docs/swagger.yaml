@@ -16,11 +16,12 @@ paths:
     post:
       consumes:
       - application/json
-      description: post to it, when content is "hello api", you get "hello".
+      description: 'post to it, when body is {"content": "hello api"}, you get 200
+        with answer'
       parameters:
       - description: 请求体
         in: body
-        name: param
+        name: jsonbody
         required: true
         schema:
           $ref: '#/definitions/handlers.hellomessage'
@@ -29,7 +30,8 @@ paths:
       responses:
         "200":
           description: 成功响应
-          schema: {}
+          schema:
+            type: json
         "400":
           description: 请求错误
           schema:

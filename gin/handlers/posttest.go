@@ -13,11 +13,11 @@ type hellomessage struct {
 // @Tags Hello-world-test
 // @Router /posttest [post]
 // @Summary try a JSON-data to this api
-// @Description post to it, when content is "hello api", you get "hello".
+// @Description post to it, when body is {"content": "hello api"}, you get 200 with answer
 // @Accept json
 // @Produce json
-// @Param param body hellomessage true "请求体"
-// @Success 200 {object} any "成功响应"
+// @Param jsonbody body hellomessage true "请求体"
+// @Success 200 json string "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func PostTest(ctx *gin.Context) {
