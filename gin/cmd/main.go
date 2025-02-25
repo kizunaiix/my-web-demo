@@ -18,7 +18,6 @@ var appconf = conf.Conf{}
 func init() {
 
 	//加载conf文件的内容
-
 	confFile, err := os.ReadFile("../conf/ginconf-prod.yml")
 	if err != nil {
 		panic(err)
@@ -55,5 +54,3 @@ func main() {
 	r.Run(":9000")
 
 }
-
-// TODO：在本文件也写一个init函数，研究一下谁的init先执行
