@@ -29,7 +29,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.hellomessage"
+                            "$ref": "#/definitions/handler.hellomessage"
                         }
                     }
                 ],
@@ -112,7 +112,7 @@
         }
     },
     "definitions": {
-        "handlers.hellomessage": {
+        "handler.hellomessage": {
             "type": "object",
             "properties": {
                 "content": {

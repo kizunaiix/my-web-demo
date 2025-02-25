@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.hellomessage"
+                            "$ref": "#/definitions/handler.hellomessage"
                         }
                     }
                 ],
@@ -118,7 +118,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handlers.hellomessage": {
+        "handler.hellomessage": {
             "type": "object",
             "properties": {
                 "content": {

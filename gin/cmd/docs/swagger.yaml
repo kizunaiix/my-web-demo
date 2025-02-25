@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  handlers.hellomessage:
+  handler.hellomessage:
     properties:
       content:
         type: string
@@ -24,7 +24,7 @@ paths:
         name: jsonbody
         required: true
         schema:
-          $ref: '#/definitions/handlers.hellomessage'
+          $ref: '#/definitions/handler.hellomessage'
       produces:
       - application/json
       responses:
