@@ -51,11 +51,11 @@ cd到根目录`cd /home/yaodong/codings/my-web-demo/gin`
 
 ```zsh
 
-# 项目构建
-swag init -d ./cmd,./handlers
-go build -o ./bin/gin-app-be ./cmd/*.go
+# 项目构建：cd到cmd目录
+swag init -d ../cmd,../internal/handler
+go build -o ../bin/gin-app-be .
 
-# 镜像构建
+# 镜像构建: cd到gin目录
 docker build -t kizunaiix/my-web-demo-backend:latest .
 
 # docker run
