@@ -13,7 +13,7 @@ import (
 	"ki9.com/gin_demo/internal/model/conf"
 )
 
-var appconf = conf.Conf{}
+var cfg = conf.Conf{}
 
 func init() {
 
@@ -22,7 +22,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	if err = yaml.Unmarshal(confFile, &appconf); err != nil {
+	if err = yaml.Unmarshal(confFile, &cfg); err != nil {
 		panic(err)
 	}
 
@@ -43,14 +43,12 @@ func main() {
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
 
-	// 绑定 Swagger UI路由，仅在go build命令带上-tags dev后生效
-	if appconf.SwagEnable {
-		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	}
+	// 绑定 Swagger UI路由，DisablingWrapHandler会查环境变量是否存在，只要存在则返回404
+	r.GET("/swagger/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "DISABLE_SWAGGER"))
 
 	//注册路由
 	handler.RegisterRouters(r)
 
-	r.Run(":9000")
+	r.Run("0.0.0.0:9000")
 
 }
