@@ -10,7 +10,7 @@ info:
   contact: {}
   description: 这是一个基于 Gin 和 RPC 风格的习惯养成 API。应当只有开发环境下能看到该文档。
   title: 习惯养成 API 文档
-  version: "0.2"
+  version: 0.3.2
 paths:
   /posttest:
     post:

@@ -27,14 +27,14 @@ gin/
 | repository/ (数据访问层，DAO) | 封装数据库操作，使用 GORM 或手写 SQL                | 避免在 service/ 直接写 SQL，保证数据库操作的可复用性                |
 | model/ (数据模型层)           | 定义 struct，存储数据库表映射（ORM 模型）和业务模型 | 可以拆成 model/db.go（数据库模型）和 model/dto.go（前端返回的模型） |
 | pkg/ (工具函数)               | 存放通用的工具函数或库，与业务无关                  | 如日志、时间转换、排序算法、JWT 解析等                              |
+
 ## SWAGGER相关
 
-cd到根目录`cd /home/yaodong/codings/my-web-demo/gin`
+cd到cmd目录,执行`swag init -d ./,../internal/handler`，swag会在当前cd到的目录下面生成doc目录
 
-在gin目录执行`swag init -d ./cmd,./handlers`，这样才会在gin下面生成doc目录
+~~`go build -tags dev -o ./bin/gin-app-be ./cmd/`命令能够看到swagger文档，不带tags则不行。这里要注意是./cmd/ ，不能用./cmd/*.go或者./cmd/main.go  .  文件夹的话go会自动判断tag的逻辑。而指定go文件的话会高于tag逻辑，直接无视掉tag~~
 
-`go build -tags dev -o ./bin/gin-app-be ./cmd/`命令能够看到swagger文档，不带tags则不行。这里要注意是./cmd/ ，不能用./cmd/*.go或者./cmd/main.go
-文件夹的话go会自动判断tag的逻辑。而指定go文件的话会高于tag逻辑，直接无视掉tag
+现在会根据环境变量ENV里是否包含"prod"来保证不在生产环境加载swagger文档。
 
 ### 注释的写法 
 
@@ -49,15 +49,4 @@ cd到根目录`cd /home/yaodong/codings/my-web-demo/gin`
 
 ## 构建命令
 
-```zsh
-
-# 项目构建：cd到cmd目录
-swag init -d ../cmd,../internal/handler
-go build -o ../bin/gin-app-be .
-
-# 镜像构建: cd到gin目录
-docker build -t kizunaiix/my-web-demo-backend:latest .
-
-# docker run
-docker run -itd --name my-web-demo-backend -p 9000:9000 kizunaiix/my-web-demo-backend:latest
-```
+参考makefile

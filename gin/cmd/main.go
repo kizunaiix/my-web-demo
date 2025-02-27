@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -29,7 +30,7 @@ func init() {
 }
 
 // @title 习惯养成 API 文档
-// @version 0.2
+// @version 0.3.2
 // @description 这是一个基于 Gin 和 RPC 风格的习惯养成 API。应当只有开发环境下能看到该文档。
 // @host localhost:9000
 // @BasePath /api
@@ -43,8 +44,10 @@ func main() {
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
 
-	// 绑定 Swagger UI路由，DisablingWrapHandler会查环境变量是否存在，只要存在则返回404
-	r.GET("/swagger/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "DISABLE_SWAGGER"))
+	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc
+	if !strings.Contains(os.Getenv("ENV"), "prod") {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	//注册路由
 	handler.RegisterRouters(r)
