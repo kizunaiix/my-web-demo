@@ -16,4 +16,5 @@ func RegisterRouters(r *gin.Engine) {
 
 	r.POST("/api/posttest", PostTest)
 
+	r.POST("/api/handle-task", HandleTask)
 }
