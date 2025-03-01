@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/handle-task": {
             "post": {
-                "description": "when method is \"add\", add a new task",
+                "description": "when method is \"create || read || update || delete\", deal with task to sql",
                 "consumes": [
                     "application/json"
                 ],
@@ -31,11 +31,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "请求体",
-                        "name": "jsonbody",
+                        "name": "JSON_body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.hellomessage"
+                            "$ref": "#/definitions/handler.JSONBody"
                         }
                     }
                 ],
@@ -43,7 +43,8 @@ const docTemplate = `{
                     "200": {
                         "description": "成功响应",
                         "schema": {
-                            "type": "json"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -166,6 +167,9 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "handler.JSONBody": {
+            "type": "object"
+        },
         "handler.hellomessage": {
             "type": "object",
             "properties": {

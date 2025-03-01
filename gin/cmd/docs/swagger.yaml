@@ -1,5 +1,7 @@
 basePath: /api
 definitions:
+  handler.JSONBody:
+    type: object
   handler.hellomessage:
     properties:
       content:
@@ -16,21 +18,23 @@ paths:
     post:
       consumes:
       - application/json
-      description: when method is "add", add a new task
+      description: when method is "create || read || update || delete", deal with
+        task to sql
       parameters:
       - description: 请求体
         in: body
-        name: jsonbody
+        name: JSON_body
         required: true
         schema:
-          $ref: '#/definitions/handler.hellomessage'
+          $ref: '#/definitions/handler.JSONBody'
       produces:
       - application/json
       responses:
         "200":
           description: 成功响应
           schema:
-            type: json
+            additionalProperties: true
+            type: object
         "400":
           description: 请求错误
           schema:
