@@ -6,10 +6,10 @@ import (
 
 type Task struct {
 	Id             int       `json:"id"`
-	CreateTime     time.Time `json:"create time"`
-	UpdateTime     time.Time `json:"update time"`
-	PlanToDoneTime time.Time `json:"plan to done time"`
-	ActualDoneTime time.Time `json:"actual done time"`
+	CreateTime     time.Time `json:"createTime"`
+	UpdateTime     time.Time `json:"updateTime"`
+	PlanToDoneTime time.Time `json:"planToDoneTime"`
+	ActualDoneTime time.Time `json:"actualDoneTime"`
 	Creater        User      `json:"creater"`
 	Description    string    `json:"description"`
 	Status         string    `json:"status"`

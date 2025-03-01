@@ -1,6 +1,37 @@
 basePath: /api
 definitions:
+  allmodel.Task:
+    properties:
+      actualDoneTime:
+        type: string
+      createTime:
+        type: string
+      creater:
+        $ref: '#/definitions/allmodel.User'
+      description:
+        type: string
+      id:
+        type: integer
+      planToDoneTime:
+        type: string
+      status:
+        type: string
+      updateTime:
+        type: string
+    type: object
+  allmodel.User:
+    properties:
+      name:
+        type: string
+      uid:
+        type: integer
+    type: object
   handler.JSONBody:
+    properties:
+      method:
+        type: string
+      task:
+        $ref: '#/definitions/allmodel.Task'
     type: object
   handler.hellomessage:
     properties:

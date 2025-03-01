@@ -21,7 +21,7 @@ type JSONBody struct {
 // @Description when method is "create || read || update || delete", deal with task to sql
 // @Accept json
 // @Produce json
-// @Param JSON_body body JSONBody true "请求体" TODO:让这个body能在swagger展示默认字段
+// @Param JSON_body body JSONBody true "请求体"
 // @Success 200 {object} map[string]interface{} "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // @Failure 404 {object} map[string]interface{} "服务不存在"

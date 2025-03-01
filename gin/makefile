@@ -1,9 +1,9 @@
 gorun:
-	cd cmd && swag init -d ./,../internal/handler
+	cd cmd && swag init -d ./,../internal/
 	cd cmd && go run .
 
 gobuild:
-	cd cmd && swag init -d ./,../internal/handler
+	cd cmd && swag init -d ./,../internal/
 	cd cmd && go build -o ../bin/gin-app-be .
 
 dockerbuild:

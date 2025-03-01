@@ -167,8 +167,56 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "allmodel.Task": {
+            "type": "object",
+            "properties": {
+                "actualDoneTime": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "creater": {
+                    "$ref": "#/definitions/allmodel.User"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "planToDoneTime": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updateTime": {
+                    "type": "string"
+                }
+            }
+        },
+        "allmodel.User": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "integer"
+                }
+            }
+        },
         "handler.JSONBody": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "task": {
+                    "$ref": "#/definitions/allmodel.Task"
+                }
+            }
         },
         "handler.hellomessage": {
             "type": "object",
