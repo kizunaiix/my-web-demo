@@ -43,15 +43,21 @@ func HandleTask(ctx *gin.Context) {
 			log.Printf("created Task: %v\n", b.Task)
 		} else {
 			ctx.JSON(http.StatusBadRequest, gin.H{"msg": "Task already exists"})
-			return
+
 		}
 
 	case "read":
-		//TODO
-		log.Panicln("read not implemented!!")
 
-		ctx.JSON(http.StatusOK, gin.H{"msg": "success"})
-		return
+		for _, i := range allmodel.PgDatabaseTasks {
+
+			var findResults []allmodel.Task
+
+			if i.Creater.Uid == b.Task.Creater.Uid {
+				findResults = append(findResults, i)
+			}
+			ctx.JSON(http.StatusOK, findResults)
+			log.Printf("find tasks: %v", findResults)
+		}
 
 	case "update":
 		//TODO
@@ -62,7 +68,7 @@ func HandleTask(ctx *gin.Context) {
 		log.Panicln("delete not implemented!!")
 	default:
 		ctx.String(http.StatusBadRequest, "invaild method")
-		return
+
 	}
 
 }
