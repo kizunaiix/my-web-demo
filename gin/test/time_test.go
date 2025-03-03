@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 // golang默认的time.Time时间解析格式是RFC 3339，除非你再自定义type并实现json.Unmarshaler接口
@@ -31,4 +33,8 @@ func TestTimeInit(t *testing.T) {
 	fmt.Println(string(c))
 	fmt.Println(tt)
 
+}
+func TestUuid(t *testing.T) {
+	a := uuid.New()
+	fmt.Println(a)
 }

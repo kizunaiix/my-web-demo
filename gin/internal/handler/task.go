@@ -8,8 +8,6 @@ import (
 	"ki9.com/gin_demo/internal/model/allmodel"
 )
 
-var PgDatabaseTasks []allmodel.Task
-
 type JSONBody struct {
 	Method string        `json:"method"`
 	Task   allmodel.Task `json:"task"`
@@ -38,12 +36,15 @@ func HandleTask(ctx *gin.Context) {
 	//仅接受特定的mathod：CRUD，否则400
 	switch b.Method {
 	case "create":
-		// do sth
-		log.Println("1!!!!!!!!!!!!!!!!")
 
-		ctx.JSON(http.StatusOK, gin.H{"msg": "success"})
-		// TODO：实现create,先保存在内存
-		return
+		if b.Task.IsNew() {
+			allmodel.PgDatabaseTasks = append(allmodel.PgDatabaseTasks, b.Task)
+			ctx.JSON(http.StatusOK, b.Task)
+			log.Printf("created Task: %v\n", b.Task)
+		} else {
+			ctx.JSON(http.StatusBadRequest, gin.H{"msg": "Task already exists"})
+			return
+		}
 
 	case "read":
 		//TODO
