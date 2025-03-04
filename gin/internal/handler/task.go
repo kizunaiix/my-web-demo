@@ -23,6 +23,7 @@ type JSONBody struct {
 // @Success 200 {object} map[string]interface{} "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // TODO:把api的描述再完善一下
+// TODO 学习一下GraphQL的api风格
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func HandleTask(ctx *gin.Context) {
 	b := &JSONBody{}
