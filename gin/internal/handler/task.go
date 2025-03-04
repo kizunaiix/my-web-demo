@@ -22,6 +22,7 @@ type JSONBody struct {
 // @Param JSON_body body JSONBody true "请求体"
 // @Success 200 {object} map[string]interface{} "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
+// TODO:把api的描述再完善一下
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func HandleTask(ctx *gin.Context) {
 	b := &JSONBody{}
