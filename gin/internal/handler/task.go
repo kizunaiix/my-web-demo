@@ -23,7 +23,6 @@ type JSONBody struct {
 // @Success 200 {object} map[string]interface{} "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // TODO:把api的描述再完善一下
-// TODO 学习一下GraphQL的api风格
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func HandleTask(ctx *gin.Context) {
 	b := &JSONBody{}
@@ -45,21 +44,21 @@ func HandleTask(ctx *gin.Context) {
 			log.Printf("created Task: %v\n", b.Task)
 		} else {
 			ctx.JSON(http.StatusBadRequest, gin.H{"msg": "Task already exists"})
-
 		}
 
 	case "read":
 
-		for _, i := range allmodel.PgDatabaseTasks {
+		var findResults []allmodel.Task
 
-			var findResults []allmodel.Task
+		for _, i := range allmodel.PgDatabaseTasks {
 
 			if i.Creater.Uid == b.Task.Creater.Uid {
 				findResults = append(findResults, i)
 			}
-			ctx.JSON(http.StatusOK, findResults)
-			log.Printf("find tasks: %v", findResults)
 		}
+
+		ctx.JSON(http.StatusOK, findResults)
+		log.Printf("find tasks: %v", findResults)
 
 	case "update":
 		//TODO

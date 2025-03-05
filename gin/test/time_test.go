@@ -38,3 +38,10 @@ func TestUuid(t *testing.T) {
 	a := uuid.New()
 	fmt.Println(a)
 }
+
+func TestRangeCreatingVar(t *testing.T) {
+	for range 5 {
+		var a int
+		fmt.Println(a+1, &a)
+	}
+}
