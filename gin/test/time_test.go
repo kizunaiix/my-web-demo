@@ -36,7 +36,9 @@ func TestTimeInit(t *testing.T) {
 }
 func TestUuid(t *testing.T) {
 	a := uuid.New()
-	fmt.Println(a)
+	fmt.Println(a.String())
+	fmt.Println(a.URN())
+	// fmt.Println(a, a.Version())
 }
 
 func TestRangeCreatingVar(t *testing.T) {

@@ -183,7 +183,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "planToDoneTime": {
                     "type": "string"

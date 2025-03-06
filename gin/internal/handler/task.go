@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"ki9.com/gin_demo/internal/model/allmodel"
 )
 
@@ -39,6 +41,7 @@ func HandleTask(ctx *gin.Context) {
 	case "create":
 
 		if b.Task.IsNew() {
+			b.Task.Id = uuid.New().String()
 			allmodel.PgDatabaseTasks = append(allmodel.PgDatabaseTasks, b.Task)
 			ctx.JSON(http.StatusOK, b.Task)
 			log.Printf("created Task: %v\n", b.Task)
@@ -50,10 +53,10 @@ func HandleTask(ctx *gin.Context) {
 
 		var findResults []allmodel.Task
 
-		for _, i := range allmodel.PgDatabaseTasks {
+		for _, v := range allmodel.PgDatabaseTasks {
 
-			if i.Creater.Uid == b.Task.Creater.Uid {
-				findResults = append(findResults, i)
+			if v.Creater.Uid == b.Task.Creater.Uid {
+				findResults = append(findResults, v)
 			}
 		}
 
@@ -65,8 +68,20 @@ func HandleTask(ctx *gin.Context) {
 		log.Panicln("update not implemented!!")
 
 	case "delete":
-		//TODO
-		log.Panicln("delete not implemented!!")
+		if b.Task.Id == "" {
+			log.Printf("invalid request: no task id")
+			ctx.JSON(http.StatusBadRequest, "invalid request: no task id")
+		} else {
+
+			//遍历数据库并删除相应id的task
+			for i, v := range allmodel.PgDatabaseTasks {
+				if v.Id == b.Task.Id {
+					allmodel.PgDatabaseTasks = append(allmodel.PgDatabaseTasks[:i], allmodel.PgDatabaseTasks[i+1:]...)
+				}
+			}
+			ctx.JSON(http.StatusOK, fmt.Sprintf("Delated task: %v", b.Task.Id))
+		}
+
 	default:
 		ctx.String(http.StatusBadRequest, "invaild method")
 

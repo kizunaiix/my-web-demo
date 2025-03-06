@@ -8,7 +8,7 @@ import (
 var PgDatabaseTasks []Task
 
 type Task struct {
-	Id             int       `json:"id"`
+	Id             string    `json:"id"`
 	CreateTime     time.Time `json:"createTime"`
 	UpdateTime     time.Time `json:"updateTime"`
 	PlanToDoneTime time.Time `json:"planToDoneTime"`
@@ -20,7 +20,7 @@ type Task struct {
 
 // 判断解析出的task是不是新的,id不为空即为新的task
 func (t *Task) IsNew() bool {
-	if t.Id != 0 {
+	if t.Id != "" {
 		return false
 	}
 
