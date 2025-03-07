@@ -48,13 +48,20 @@ func TestRangeCreatingVar(t *testing.T) {
 	}
 }
 
+// range切片的时候，在range语句这里就已经确定了要怎么循环了，后面大括号里再改切片都不会影响循环的方式
 func TestRangetest(t *testing.T) {
+
 	a := []int{1, 2, 3, 4, 5}
 
 	for i, v := range a {
-		fmt.Println(i, v)
-		a = append(a[:i], a[i+1:]...)
+		fmt.Println(&i, i, "|", &v, v)
+
+		i += 3
+		a = a[:len(a)-1]
+
+		fmt.Println(&i, i, "|", &v, v)
+		fmt.Println("---")
 	}
 
-	// fmt.Println(a)
+	fmt.Println(a)
 }
