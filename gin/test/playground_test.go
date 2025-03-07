@@ -47,3 +47,14 @@ func TestRangeCreatingVar(t *testing.T) {
 		fmt.Println(a+1, &a)
 	}
 }
+
+func TestRangetest(t *testing.T) {
+	a := []int{1, 2, 3, 4, 5}
+
+	for i, v := range a {
+		fmt.Println(i, v)
+		a = append(a[:i], a[i+1:]...)
+	}
+
+	// fmt.Println(a)
+}

@@ -64,7 +64,7 @@ func HandleTask(ctx *gin.Context) {
 		log.Printf("find tasks: %v", findResults)
 
 	case "update":
-		//TODO
+		//TODO 更新方式：按task的uuid找到task并更新Description
 		log.Panicln("update not implemented!!")
 
 	case "delete":
