@@ -64,8 +64,20 @@ func HandleTask(ctx *gin.Context) {
 		log.Printf("find tasks: %v", findResults)
 
 	case "update":
-		//TODO 更新方式：按task的uuid找到task并更新Description
-		log.Panicln("update not implemented!!")
+
+		updated := false
+		for i, v := range allmodel.PgDatabaseTasks {
+			if v.Id == b.Task.Id {
+				allmodel.PgDatabaseTasks[i] = b.Task
+				updated = true
+			}
+		}
+
+		if !updated {
+			ctx.JSON(http.StatusOK, gin.H{"msg": "no update: task not found"})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{"msg": "success", "updateTask": b.Task})
+		}
 
 	case "delete":
 		if b.Task.Id == "" {
@@ -74,12 +86,18 @@ func HandleTask(ctx *gin.Context) {
 		} else {
 
 			//遍历数据库并删除相应id的task
+			updatedTasks := []allmodel.Task{}
+			delatedTasks := []allmodel.Task{}
 			for i, v := range allmodel.PgDatabaseTasks {
-				if v.Id == b.Task.Id {
-					allmodel.PgDatabaseTasks = append(allmodel.PgDatabaseTasks[:i], allmodel.PgDatabaseTasks[i+1:]...)
+				if v.Id != b.Task.Id {
+					updatedTasks = append(updatedTasks, allmodel.PgDatabaseTasks[i])
+				} else {
+					delatedTasks = append(delatedTasks, allmodel.PgDatabaseTasks[i])
 				}
 			}
-			ctx.JSON(http.StatusOK, fmt.Sprintf("Delated task: %v", b.Task.Id))
+			allmodel.PgDatabaseTasks = updatedTasks
+
+			ctx.JSON(http.StatusOK, fmt.Sprintf("Deleted task: %v", delatedTasks))
 		}
 
 	default:

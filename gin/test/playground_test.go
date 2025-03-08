@@ -65,3 +65,8 @@ func TestRangetest(t *testing.T) {
 
 	fmt.Println(a)
 }
+
+func Test(t *testing.T) {
+	var updated bool
+	fmt.Println(updated)
+}
