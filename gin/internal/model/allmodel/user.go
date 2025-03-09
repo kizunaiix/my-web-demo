@@ -1,6 +1,6 @@
 package allmodel
 
 type User struct {
-	Uid  int
-	Name string
+	Uid  int    `json:"uid" example:"1"`
+	Name string `json:"name" example:"kizunai9"`
 }

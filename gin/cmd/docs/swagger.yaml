@@ -3,32 +3,42 @@ definitions:
   allmodel.Task:
     properties:
       actualDoneTime:
+        example: "2025-05-01T09:31:27+01:00"
         type: string
       createTime:
+        example: "2023-01-02T18:07:05Z"
         type: string
       creater:
         $ref: '#/definitions/allmodel.User'
       description:
+        example: Rule the world
         type: string
       id:
+        example: d29799b5-c693-42ce-8270-0c2b8ccd8300
         type: string
       planToDoneTime:
+        example: "2025-03-15T14:58:45+08:00"
         type: string
       status:
+        example: pending
         type: string
       updateTime:
+        example: "2023-01-02T20:23:21+01:00"
         type: string
     type: object
   allmodel.User:
     properties:
       name:
+        example: kizunai9
         type: string
       uid:
+        example: 1
         type: integer
     type: object
   handler.JSONBody:
     properties:
       method:
+        example: create
         type: string
       task:
         $ref: '#/definitions/allmodel.Task'
@@ -49,10 +59,14 @@ paths:
     post:
       consumes:
       - application/json
-      description: when method is "create || read || update || delete", deal with
-        task to sql
+      description: |-
+        Perform CRUD operations on tasks.
+        - "create": Add new task (auto-generate ID if empty). Returns created task.
+        - "read": Get all tasks by creator UID. Returns task array.
+        - "update": Modify existing task by ID. Returns updated task.
+        - "delete": Remove task by ID. Returns deleted tasks.
       parameters:
-      - description: 请求体
+      - description: Request body
         in: body
         name: JSON_body
         required: true
@@ -62,21 +76,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: 成功响应
+          description: 操作结果
           schema:
             additionalProperties: true
             type: object
         "400":
-          description: 请求错误
+          description: Bad Request
           schema:
             additionalProperties: true
             type: object
         "404":
-          description: 服务不存在
+          description: Not Found
           schema:
             additionalProperties: true
             type: object
-      summary: add, modify or delete a task
+      summary: Create, read, update, or delete a task based on method
       tags:
       - appapi
   /posttest:

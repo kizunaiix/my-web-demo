@@ -11,7 +11,7 @@
     "paths": {
         "/handle-task": {
             "post": {
-                "description": "when method is \"create || read || update || delete\", deal with task to sql",
+                "description": "Perform CRUD operations on tasks.\n- \"create\": Add new task (auto-generate ID if empty). Returns created task.\n- \"read\": Get all tasks by creator UID. Returns task array.\n- \"update\": Modify existing task by ID. Returns updated task.\n- \"delete\": Remove task by ID. Returns deleted tasks.",
                 "consumes": [
                     "application/json"
                 ],
@@ -21,10 +21,10 @@
                 "tags": [
                     "appapi"
                 ],
-                "summary": "add, modify or delete a task",
+                "summary": "Create, read, update, or delete a task based on method",
                 "parameters": [
                     {
-                        "description": "请求体",
+                        "description": "Request body",
                         "name": "JSON_body",
                         "in": "body",
                         "required": true,
@@ -35,21 +35,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "成功响应",
+                        "description": "操作结果",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "请求错误",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "服务不存在",
+                        "description": "Not Found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -165,28 +165,35 @@
             "type": "object",
             "properties": {
                 "actualDoneTime": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-05-01T09:31:27+01:00"
                 },
                 "createTime": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-01-02T18:07:05Z"
                 },
                 "creater": {
                     "$ref": "#/definitions/allmodel.User"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Rule the world"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "d29799b5-c693-42ce-8270-0c2b8ccd8300"
                 },
                 "planToDoneTime": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-03-15T14:58:45+08:00"
                 },
                 "status": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pending"
                 },
                 "updateTime": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-01-02T20:23:21+01:00"
                 }
             }
         },
@@ -194,10 +201,12 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "kizunai9"
                 },
                 "uid": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -205,7 +214,8 @@
             "type": "object",
             "properties": {
                 "method": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "create"
                 },
                 "task": {
                     "$ref": "#/definitions/allmodel.Task"

@@ -8,14 +8,14 @@ import (
 var PgDatabaseTasks []Task
 
 type Task struct {
-	Id             string    `json:"id"`
-	CreateTime     time.Time `json:"createTime"`
-	UpdateTime     time.Time `json:"updateTime"`
-	PlanToDoneTime time.Time `json:"planToDoneTime"`
-	ActualDoneTime time.Time `json:"actualDoneTime"`
+	Id             string    `json:"id" example:"d29799b5-c693-42ce-8270-0c2b8ccd8300"`
+	CreateTime     time.Time `json:"createTime" example:"2023-01-02T18:07:05Z"`
+	UpdateTime     time.Time `json:"updateTime" example:"2023-01-02T20:23:21+01:00"`
+	PlanToDoneTime time.Time `json:"planToDoneTime" example:"2025-03-15T14:58:45+08:00"`
+	ActualDoneTime time.Time `json:"actualDoneTime" example:"2025-05-01T09:31:27+01:00"`
 	Creater        User      `json:"creater"`
-	Description    string    `json:"description"`
-	Status         string    `json:"status"`
+	Description    string    `json:"description" example:"Rule the world"`
+	Status         string    `json:"status" example:"pending"`
 }
 
 // 判断解析出的task是不是新的,id不为空即为新的task

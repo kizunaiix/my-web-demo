@@ -11,21 +11,25 @@ import (
 )
 
 type JSONBody struct {
-	Method string        `json:"method"`
+	Method string        `json:"method" example:"create"`
 	Task   allmodel.Task `json:"task"`
 }
 
 // @Tags appapi
 // @Router /handle-task [post]
-// @Summary add, modify or delete a task
-// @Description when method is "create || read || update || delete", deal with task to sql
+// @Summary Create, read, update, or delete a task based on method
+// @Description Perform CRUD operations on tasks.
+// @Description - "create": Add new task (auto-generate ID if empty). Returns created task.
+// @Description - "read": Get all tasks by creator UID. Returns task array.
+// @Description - "update": Modify existing task by ID. Returns updated task.
+// @Description - "delete": Remove task by ID. Returns deleted tasks.
 // @Accept json
 // @Produce json
-// @Param JSON_body body JSONBody true "请求体"
-// @Success 200 {object} map[string]interface{} "成功响应"
-// @Failure 400 {object} map[string]interface{} "请求错误"
-// TODO:把api的描述再完善一下
-// @Failure 404 {object} map[string]interface{} "服务不存在"
+// @Param JSON_body body JSONBody true "Request body"
+// @Success 200 {object} map[string]interface{} "操作结果"
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// TODO 把api的描述再完善一下
 func HandleTask(ctx *gin.Context) {
 	b := &JSONBody{}
 
