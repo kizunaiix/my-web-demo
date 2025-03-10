@@ -21,9 +21,9 @@ import (
 // @Accept json
 // @Produce json
 // @Param JSON_body body rest.HandleTaskBody true "Request body"
-// @Success 200 {object} map[string]interface{} "操作结果"
-// @Failure 400 {object} map[string]interface{}
-// @Failure 404 {object} map[string]interface{}
+// @Success 200 {object} rest.UniResponse "操作结果"
+// @Failure 400 {object} rest.UniResponse
+// @Failure 404 {object} rest.UniResponse
 // TODO 把api的描述再完善一下
 func HandleTask(ctx *gin.Context) {
 	b := &rest.HandleTaskBody{}

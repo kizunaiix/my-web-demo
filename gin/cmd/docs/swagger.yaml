@@ -48,6 +48,16 @@ definitions:
       task:
         $ref: '#/definitions/appmodel.Task'
     type: object
+  rest.UniResponse:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+      msg:
+        example: success
+        type: string
+    type: object
 host: localhost:9000
 info:
   contact: {}
@@ -78,18 +88,15 @@ paths:
         "200":
           description: 操作结果
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/rest.UniResponse'
         "400":
           description: Bad Request
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/rest.UniResponse'
         "404":
           description: Not Found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/rest.UniResponse'
       summary: create, read, update, or delete a task based on method
       tags:
       - appapi

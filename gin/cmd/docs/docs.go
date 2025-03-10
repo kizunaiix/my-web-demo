@@ -43,22 +43,19 @@ const docTemplate = `{
                     "200": {
                         "description": "操作结果",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rest.UniResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rest.UniResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/rest.UniResponse"
                         }
                     }
                 }
@@ -233,6 +230,20 @@ const docTemplate = `{
                 },
                 "task": {
                     "$ref": "#/definitions/appmodel.Task"
+                }
+            }
+        },
+        "rest.UniResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "success"
                 }
             }
         }
