@@ -21,7 +21,7 @@
                 "tags": [
                     "appapi"
                 ],
-                "summary": "Create, read, update, or delete a task based on method",
+                "summary": "create, read, update, or delete a task based on method",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -29,7 +29,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.JSONBody"
+                            "$ref": "#/definitions/rest.HandleTaskBody"
                         }
                     }
                 ],
@@ -161,7 +161,7 @@
         }
     },
     "definitions": {
-        "allmodel.Task": {
+        "appmodel.Task": {
             "type": "object",
             "properties": {
                 "actualDoneTime": {
@@ -173,7 +173,7 @@
                     "example": "2023-01-02T18:07:05Z"
                 },
                 "creater": {
-                    "$ref": "#/definitions/allmodel.User"
+                    "$ref": "#/definitions/appmodel.User"
                 },
                 "description": {
                     "type": "string",
@@ -197,7 +197,7 @@
                 }
             }
         },
-        "allmodel.User": {
+        "appmodel.User": {
             "type": "object",
             "properties": {
                 "name": {
@@ -210,7 +210,15 @@
                 }
             }
         },
-        "handler.JSONBody": {
+        "handler.hellomessage": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "rest.HandleTaskBody": {
             "type": "object",
             "properties": {
                 "method": {
@@ -218,15 +226,7 @@
                     "example": "create"
                 },
                 "task": {
-                    "$ref": "#/definitions/allmodel.Task"
-                }
-            }
-        },
-        "handler.hellomessage": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
+                    "$ref": "#/definitions/appmodel.Task"
                 }
             }
         }

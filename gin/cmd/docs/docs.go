@@ -27,7 +27,7 @@ const docTemplate = `{
                 "tags": [
                     "appapi"
                 ],
-                "summary": "Create, read, update, or delete a task based on method",
+                "summary": "create, read, update, or delete a task based on method",
                 "parameters": [
                     {
                         "description": "Request body",
@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.JSONBody"
+                            "$ref": "#/definitions/rest.HandleTaskBody"
                         }
                     }
                 ],
@@ -167,7 +167,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "allmodel.Task": {
+        "appmodel.Task": {
             "type": "object",
             "properties": {
                 "actualDoneTime": {
@@ -179,7 +179,7 @@ const docTemplate = `{
                     "example": "2023-01-02T18:07:05Z"
                 },
                 "creater": {
-                    "$ref": "#/definitions/allmodel.User"
+                    "$ref": "#/definitions/appmodel.User"
                 },
                 "description": {
                     "type": "string",
@@ -203,7 +203,7 @@ const docTemplate = `{
                 }
             }
         },
-        "allmodel.User": {
+        "appmodel.User": {
             "type": "object",
             "properties": {
                 "name": {
@@ -216,7 +216,15 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.JSONBody": {
+        "handler.hellomessage": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "rest.HandleTaskBody": {
             "type": "object",
             "properties": {
                 "method": {
@@ -224,15 +232,7 @@ const docTemplate = `{
                     "example": "create"
                 },
                 "task": {
-                    "$ref": "#/definitions/allmodel.Task"
-                }
-            }
-        },
-        "handler.hellomessage": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
+                    "$ref": "#/definitions/appmodel.Task"
                 }
             }
         }

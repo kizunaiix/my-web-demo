@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  allmodel.Task:
+  appmodel.Task:
     properties:
       actualDoneTime:
         example: "2025-05-01T09:31:27+01:00"
@@ -9,7 +9,7 @@ definitions:
         example: "2023-01-02T18:07:05Z"
         type: string
       creater:
-        $ref: '#/definitions/allmodel.User'
+        $ref: '#/definitions/appmodel.User'
       description:
         example: Rule the world
         type: string
@@ -26,7 +26,7 @@ definitions:
         example: "2023-01-02T20:23:21+01:00"
         type: string
     type: object
-  allmodel.User:
+  appmodel.User:
     properties:
       name:
         example: kizunai9
@@ -35,18 +35,18 @@ definitions:
         example: 1
         type: integer
     type: object
-  handler.JSONBody:
+  handler.hellomessage:
+    properties:
+      content:
+        type: string
+    type: object
+  rest.HandleTaskBody:
     properties:
       method:
         example: create
         type: string
       task:
-        $ref: '#/definitions/allmodel.Task'
-    type: object
-  handler.hellomessage:
-    properties:
-      content:
-        type: string
+        $ref: '#/definitions/appmodel.Task'
     type: object
 host: localhost:9000
 info:
@@ -71,7 +71,7 @@ paths:
         name: JSON_body
         required: true
         schema:
-          $ref: '#/definitions/handler.JSONBody'
+          $ref: '#/definitions/rest.HandleTaskBody'
       produces:
       - application/json
       responses:
@@ -90,7 +90,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Create, read, update, or delete a task based on method
+      summary: create, read, update, or delete a task based on method
       tags:
       - appapi
   /posttest:

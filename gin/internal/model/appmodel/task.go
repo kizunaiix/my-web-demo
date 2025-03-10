@@ -1,4 +1,4 @@
-package allmodel
+package appmodel
 
 import (
 	"time"
