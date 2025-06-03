@@ -50,3 +50,22 @@ cd到cmd目录,执行`swag init -d ./,../internal/handler`，swag会在当前cd�
 ## 构建命令
 
 参考makefile，命令为`make <command>`
+
+---
+
+改用了Task
+
+- 初始化并运行  
+`task gorun`
+
+- 编译 Go 二进制  
+`task gobuild`
+
+- 构建 Docker 镜像  
+`task dockerbuild`
+
+- 启动开发容器  
+`task dockerrun-dev`
+
+- 删除容器（可选）  
+`task docker-clean`
