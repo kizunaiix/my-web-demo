@@ -18,18 +18,18 @@ type Task struct {
 	Status         string    `json:"status" example:"pending"`
 }
 
-// 判断解析出的task是不是新的,id不为空即为新的task
-func (t *Task) IsNew() bool {
+// 判断解析出的task是不是旧的,id不为空即为新的task
+func (t *Task) IsAlreadyExist() bool {
 	if t.Id != "" {
-		return false
+		return true
 	}
 
 	//同用户创建的同内容的第二个Task无效
 	for _, i := range PgDatabaseTasks {
 		if i.Creater.Uid == t.Creater.Uid && i.Description == t.Description {
-			return false
+			return true
 		}
 	}
 
-	return true
+	return false
 }

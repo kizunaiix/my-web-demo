@@ -39,15 +39,16 @@ func HandleTask(ctx *gin.Context) {
 	switch b.Method {
 	case "create":
 
-		if b.Task.IsNew() {
-			b.Task.Id = uuid.New().String()
-			appmodel.PgDatabaseTasks = append(appmodel.PgDatabaseTasks, b.Task)
-
-			ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "success", Data: b.Task})
-			log.Printf("created Task: %v\n", b.Task)
-		} else {
+		if b.Task.IsAlreadyExist() {
 			ctx.JSON(http.StatusBadRequest, rest.UniResponse{Code: 400, Msg: "failed: task already exists"})
+			return
 		}
+
+		b.Task.Id = uuid.New().String()
+		appmodel.PgDatabaseTasks = append(appmodel.PgDatabaseTasks, b.Task)
+
+		ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "success", Data: b.Task})
+		log.Printf("created Task: %v\n", b.Task)
 
 	case "read":
 

@@ -49,7 +49,7 @@ cd到cmd目录,执行`swag init -d ./,../internal/handler`，swag会在当前cd�
 
 ## 构建命令
 
-参考makefile，命令为`make <command>`
+~~参考makefile，命令为`make <command>`~~
 
 ---
 
