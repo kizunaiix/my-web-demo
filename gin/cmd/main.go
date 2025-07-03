@@ -27,6 +27,7 @@ func init() {
 		panic(err)
 	}
 
+	// TODO 加上日志
 }
 
 // @title 习惯养成 API 文档
