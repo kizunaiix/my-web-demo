@@ -13,6 +13,7 @@ import (
 	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
 	"ki9.com/gin_demo/internal/handler"
 	"ki9.com/gin_demo/internal/model/conf"
+	"ki9.com/gin_demo/pkg/logger"
 )
 
 var cfg = conf.Conf{}
@@ -37,12 +38,8 @@ func main() {
 	}
 
 	// 3. //TODO 初始化 logger
-	ZapLogger, err := zap.NewProduction()
-	if err != nil {
-		panic(err)
-	}
-	defer ZapLogger.Sync()
-	ZapLogger.Info("Logger initialized", zap.String("env", os.Getenv("ENV")))
+	logger.InitLogger(os.Getenv("ENV"))
+	logger.ZapLogger.Info("Logger initialized")
 
 	// 4. 初始化数据库
 
@@ -67,7 +64,7 @@ func main() {
 	// 7. 注册 Swagger
 
 	// 8. 启动服务
-	ZapLogger.Info("Gin server starting...",
+	logger.ZapLogger.Info("Gin server starting...",
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
 	)
