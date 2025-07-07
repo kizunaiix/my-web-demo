@@ -53,15 +53,14 @@ func main() {
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
 
-	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc
-	if !strings.Contains(os.Getenv("ENV"), "prod") {
-		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	}
-
 	// 6. 注册路由
 	handler.RegisterRouters(r)
 
 	// 7. 注册 Swagger
+	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc
+	if !strings.Contains(os.Getenv("ENV"), "prod") {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	// 8. 启动服务
 	logger.ZapLogger.Info("Gin server starting...",
