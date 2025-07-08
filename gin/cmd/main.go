@@ -37,7 +37,7 @@ func main() {
 		panic(err)
 	}
 
-	// 3. //TODO 初始化 logger
+	// 3. //TODO 初始化 logger .
 	logger.InitLogger(os.Getenv("ENV"))
 	logger.ZapLogger.Info("Logger initialized")
 
