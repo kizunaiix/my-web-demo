@@ -9,11 +9,11 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"gopkg.in/yaml.v3"
 	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
 	"ki9.com/gin_demo/internal/handler"
 	"ki9.com/gin_demo/internal/model/conf"
+	"ki9.com/gin_demo/pkg/logger"
 )
 
 var cfg = conf.Conf{}
@@ -38,21 +38,18 @@ func main() {
 	}
 
 	// 3. //TODO 初始化 logger .
-	logCfg := zap.NewProductionConfig()
-	logCfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
-	Logger, err := logCfg.Build()
-	if err != nil {
-		Logger.Fatal("Failed to initialize logger", zap.Error(err))
-	}
+	logger.Init()
+
+	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
 
 	// 4. 初始化数据库
 
 	// 5. 初始化 Gin
 	r := gin.New()
 	r.Use(
-		gin.Logger(),
+		logger.LoggerMiddleWare(logger.Logger),
 		gin.Recovery())
-	//CORS策略
+
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:80", "http://localhost:3000"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
@@ -69,7 +66,7 @@ func main() {
 	}
 
 	// 8. 启动服务
-	Logger.Info("Gin server starting...",
+	logger.Logger.Info("Gin server starting...",
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
 	)
