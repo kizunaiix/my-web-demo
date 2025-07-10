@@ -1,7 +1,6 @@
 package logger //TODO: 让GPT再review一下
 
 import (
-	"log"
 	"os"
 	"time"
 
@@ -12,45 +11,47 @@ import (
 
 var Logger *zap.Logger
 
-func Init() {
-	var err error
-	Logger, err = NewLogger(os.Getenv("ENV"))
+func Init() (err error) {
+	Logger, err = NewLogger()
 	if err != nil {
-		log.Fatal("Failed to initialize logger:", zap.Error(err))
+		return
 	}
+	return
 }
 
-func NewLogger(env string) (ZapLogger *zap.Logger, err error) {
+func NewLogger() (l *zap.Logger, err error) {
+
+	env := os.Getenv("ENV")
 
 	switch env {
 
 	case "dev":
 
-		ZapLogger, err = zap.NewDevelopment()
+		l, err = zap.NewDevelopment()
 
 	case "prod":
 
-		ZapLogger, err = zap.NewProduction()
+		l, err = zap.NewProduction()
 
 	default:
 
 		logCfg := zap.NewProductionConfig()
 		logCfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
-		ZapLogger, err = logCfg.Build()
+		l, err = logCfg.Build()
 
 	}
 
 	if err != nil {
-		ZapLogger.Error("Logger initializing failed", zap.String("env", env))
+		l.Error("Logger initializing failed", zap.String("env", env))
 	} else {
-		ZapLogger.Info("Logger initialized", zap.String("env", env))
+		l.Info("Logger initialized", zap.String("env", env))
 	}
 
 	return
 
 }
 
-func LoggerMiddleWare(l *zap.Logger) gin.HandlerFunc {
+func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		//开始计时

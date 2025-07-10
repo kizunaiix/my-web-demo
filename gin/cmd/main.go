@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"strings"
 
@@ -38,7 +39,10 @@ func main() {
 	}
 
 	// 3. //TODO 初始化 logger .
-	logger.Init()
+	err = logger.Init()
+	if err != nil {
+		log.Fatal("Logger initializing failed", zap.Error(err))
+	}
 
 	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
 
@@ -47,7 +51,7 @@ func main() {
 	// 5. 初始化 Gin
 	r := gin.New()
 	r.Use(
-		logger.LoggerMiddleWare(logger.Logger),
+		logger.LoggerMiddleware(logger.Logger),
 		gin.Recovery())
 
 	r.Use(cors.New(cors.Config{
