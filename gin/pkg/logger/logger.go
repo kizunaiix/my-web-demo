@@ -60,8 +60,6 @@ func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc {
 		c.Next() // 调用下一个处理器
 
 		//结束计时
-		// end := time.Now()
-		// duration := end.Sub(start)
 		duration := time.Since(start)
 
 		l.Info("Request Completed",
