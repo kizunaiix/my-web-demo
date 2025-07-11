@@ -52,7 +52,7 @@ func main() {
 	r := gin.New()
 	r.Use(
 		logger.LoggerMiddleware(logger.Logger),
-		gin.Logger(),
+		// gin.Logger(),
 		gin.Recovery())
 
 	r.Use(cors.New(cors.Config{
