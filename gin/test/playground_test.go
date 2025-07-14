@@ -66,7 +66,20 @@ func TestRangetest(t *testing.T) {
 	fmt.Println(a)
 }
 
-func Test(t *testing.T) {
+func Test11237(t *testing.T) {
 	var updated bool
 	fmt.Println(updated)
+}
+
+func TestTimeDuration(t *testing.T) {
+	start := time.Now()
+	time.Sleep(2*time.Second + 500*time.Millisecond) // 模拟处理时间
+	end := time.Now()
+
+	duration := end.Sub(start)
+	fmt.Printf("Duration: %d\n", duration)
+	fmt.Printf("%0.2f seconds\n", duration.Seconds())
+
+	s := duration.String()
+	fmt.Println(s)
 }

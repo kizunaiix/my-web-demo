@@ -26,10 +26,16 @@ var cfg = conf.Conf{}
 // @BasePath /api
 func main() {
 
-	// 1. 加载环境变量
+	// 初始化 logger
+	err := logger.Init()
+	if err != nil {
+		log.Fatal("Logger initializing failed", zap.Error(err))
+	}
 
-	// 2. 加载配置
-	//加载conf文件的内容
+	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
+
+	// 加载配置
+	//加载conf文件的内容 TODO: 封装成func loadConfig(path string) (*conf.Conf, error)
 	confFile, err := os.ReadFile("../conf/ginconf-prod.yml")
 	if err != nil {
 		panic(err)
@@ -37,14 +43,6 @@ func main() {
 	if err = yaml.Unmarshal(confFile, &cfg); err != nil {
 		panic(err)
 	}
-
-	// 3. //TODO 初始化 logger .
-	err = logger.Init()
-	if err != nil {
-		log.Fatal("Logger initializing failed", zap.Error(err))
-	}
-
-	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
 
 	// 4. 初始化数据库
 
