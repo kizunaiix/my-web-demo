@@ -77,7 +77,8 @@ func TestTimeDuration(t *testing.T) {
 	end := time.Now()
 
 	duration := end.Sub(start)
-	fmt.Printf("Duration: %d\n", duration)
+
+	fmt.Printf("Duration: %d\n", duration) //%d可以打印数字
 	fmt.Printf("%0.2f seconds\n", duration.Seconds())
 
 	s := duration.String()
