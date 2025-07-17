@@ -84,3 +84,37 @@ func TestTimeDuration(t *testing.T) {
 	s := duration.String()
 	fmt.Println(s)
 }
+
+func isPrime(n int) (bool, int) {
+	if n <= 1 {
+		return false, 0
+	}
+	if n <= 3 {
+		return true, 0 // 2 和 3 是质数
+	}
+	if n%2 == 0 {
+		return false, 2 // 排除能被 2 整除的
+	}
+	if n%3 == 0 {
+		return false, 3 // 排除能被 3 整除的
+	}
+	// 检查形如 6k ± 1 的因数
+	for i := 5; i*i <= n; i += 6 {
+		if n%i == 0 {
+			return false, i
+		}
+
+		if n%(i+2) == 0 {
+			return false, i + 2
+		}
+	}
+
+	return true, 0
+}
+
+func TestIsPrime(t *testing.T) {
+	n := 259
+	r, f := isPrime(259)
+	fmt.Printf("%v的判断结果是：%v , 它的因数是：%v\n", n, r, f)
+
+}
