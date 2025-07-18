@@ -116,5 +116,5 @@ func TestIsPrime(t *testing.T) {
 	n := 259
 	r, f := isPrime(259)
 	fmt.Printf("%v的判断结果是：%v , 它的因数是：%v\n", n, r, f)
-
+	//
 }
