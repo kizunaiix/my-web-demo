@@ -1,4 +1,4 @@
-package appmodel
+package appmodel // TODO: 要改成按功能划分。并且拆出来dto.go
 
 import (
 	"time"
