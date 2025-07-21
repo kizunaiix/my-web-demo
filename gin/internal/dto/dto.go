@@ -1,4 +1,4 @@
-package rest
+package dto
 
 import "ki9.com/gin_demo/internal/model/appmodel"
 

@@ -1,4 +1,4 @@
-package handler
+package post_api
 
 import (
 	"net/http"

@@ -1,6 +1,7 @@
 version: '3'
 
 tasks:
+
   gorun:
     desc: "Init Swagger and run the Go app"
     cmds:

@@ -1,4 +1,4 @@
-package handler
+package task
 
 import (
 	"log"
@@ -25,7 +25,7 @@ import (
 // @Failure 400 {object} rest.UniResponse
 // @Failure 404 {object} rest.UniResponse
 // TODO 把api的描述再完善一下
-func HandleTask(ctx *gin.Context) {
+func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单独的service中
 	b := &rest.HandleTaskBody{}
 
 	err := ctx.BindJSON(b)
