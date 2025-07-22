@@ -1,4 +1,4 @@
-package logger //TODO: 让GPT再review一下
+package logger
 
 import (
 	"os"

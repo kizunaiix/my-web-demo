@@ -12,8 +12,8 @@ import (
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
-	"ki9.com/gin_demo/internal/handler"
-	"ki9.com/gin_demo/internal/model/conf"
+	"ki9.com/gin_demo/internal/conf"
+	"ki9.com/gin_demo/internal/router"
 	"ki9.com/gin_demo/pkg/logger"
 )
 
@@ -60,7 +60,7 @@ func main() {
 	}))
 
 	// 6. 注册路由
-	handler.RegisterRouters(r)
+	router.RegisterRouters(r)
 
 	// 7. 注册 Swagger
 	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc

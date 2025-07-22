@@ -4,6 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"ki9.com/gin_demo/internal/helloworld/greet"
+	"ki9.com/gin_demo/internal/helloworld/welcome"
+	"ki9.com/gin_demo/internal/task"
 )
 
 func RegisterRouters(r *gin.Engine) {
@@ -12,9 +15,9 @@ func RegisterRouters(r *gin.Engine) {
 		ctx.JSON(http.StatusOK, &struct{ SwaggerDocs string }{SwaggerDocs: "http://localhost:9000/"})
 	})
 
-	r.GET("/api/welcome", Welcome)
+	r.GET("/api/welcome", welcome.Welcome)
 
-	r.POST("/api/posttest", PostTest)
+	r.POST("/api/posttest", greet.Greet)
 
-	r.POST("/api/handle-task", HandleTask)
+	r.POST("/api/handle-task", task.HandleTask)
 }

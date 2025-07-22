@@ -6,8 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"ki9.com/gin_demo/internal/model/appmodel"
-	"ki9.com/gin_demo/internal/model/rest"
+	"ki9.com/gin_demo/internal/dto"
 )
 
 // @Tags appapi
@@ -26,12 +25,12 @@ import (
 // @Failure 404 {object} rest.UniResponse
 // TODO 把api的描述再完善一下
 func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单独的service中
-	b := &rest.HandleTaskBody{}
+	b := &reqBody{}
 
 	err := ctx.BindJSON(b)
 	if err != nil {
 		log.Println("func HandleTask: ", err)
-		ctx.JSON(http.StatusBadRequest, rest.UniResponse{Code: 400, Msg: err.Error()})
+		ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: err.Error()})
 		return
 	}
 
@@ -40,69 +39,69 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 	case "create":
 
 		if b.Task.IsAlreadyExist() {
-			ctx.JSON(http.StatusBadRequest, rest.UniResponse{Code: 400, Msg: "failed: task already exists"})
+			ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "failed: task already exists"})
 			return
 		}
 
 		b.Task.Id = uuid.New().String()
-		appmodel.PgDatabaseTasks = append(appmodel.PgDatabaseTasks, b.Task)
+		PgDatabaseTasks = append(PgDatabaseTasks, b.Task)
 
-		ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "success", Data: b.Task})
+		ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: b.Task})
 		log.Printf("created Task: %v\n", b.Task)
 
 	case "read":
 
-		var searchResults []appmodel.Task
+		var searchResults []Task
 
-		for _, v := range appmodel.PgDatabaseTasks {
+		for _, v := range PgDatabaseTasks {
 
 			if v.Creater.Uid == b.Task.Creater.Uid {
 				searchResults = append(searchResults, v)
 			}
 		}
 
-		ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "success", Data: searchResults})
+		ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: searchResults})
 		log.Printf("find tasks: %v", searchResults)
 
 	case "update":
 
 		updated := false
-		for i, v := range appmodel.PgDatabaseTasks {
+		for i, v := range PgDatabaseTasks {
 			if v.Id == b.Task.Id {
-				appmodel.PgDatabaseTasks[i] = b.Task
+				PgDatabaseTasks[i] = b.Task
 				updated = true
 			}
 		}
 
 		if !updated {
-			ctx.JSON(http.StatusOK, rest.UniResponse{Code: 404, Msg: "no update: task not found"})
+			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 404, Msg: "no update: task not found"})
 		} else {
-			ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "success", Data: b.Task})
+			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: b.Task})
 		}
 
 	case "delete":
 		if b.Task.Id == "" {
 			log.Printf("invalid request: no task id")
-			ctx.JSON(http.StatusBadRequest, rest.UniResponse{Code: 400, Msg: "invalid request: no task id"})
+			ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "invalid request: no task id"})
 		} else {
 
 			//遍历数据库并删除相应id的task
-			updatedTasks := []appmodel.Task{}
-			delatedTasks := []appmodel.Task{}
-			for i, v := range appmodel.PgDatabaseTasks {
+			updatedTasks := []Task{}
+			delatedTasks := []Task{}
+			for i, v := range PgDatabaseTasks {
 				if v.Id != b.Task.Id {
-					updatedTasks = append(updatedTasks, appmodel.PgDatabaseTasks[i])
+					updatedTasks = append(updatedTasks, PgDatabaseTasks[i])
 				} else {
-					delatedTasks = append(delatedTasks, appmodel.PgDatabaseTasks[i])
+					delatedTasks = append(delatedTasks, PgDatabaseTasks[i])
 				}
 			}
-			appmodel.PgDatabaseTasks = updatedTasks
+			PgDatabaseTasks = updatedTasks
 
-			ctx.JSON(http.StatusOK, rest.UniResponse{Code: 200, Msg: "Deleted task", Data: delatedTasks})
+			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "Deleted task", Data: delatedTasks})
 		}
 
 	default:
-		ctx.JSON(http.StatusBadRequest, rest.UniResponse{Code: 400, Msg: "invaild method: only accept \"create\", \"read\", \"update\", or \"delete\" as \"method\""})
+		ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "invaild method: only accept \"create\", \"read\", \"update\", or \"delete\" as \"method\""})
 	}
 
 }

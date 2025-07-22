@@ -19,5 +19,4 @@ import (
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func Welcome(c *gin.Context) {
 	c.String(http.StatusOK, "welcome to api")
-
 }
