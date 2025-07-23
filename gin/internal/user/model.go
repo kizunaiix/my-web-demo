@@ -1,4 +1,4 @@
-package appmodel
+package user
 
 type User struct {
 	Uid  int    `json:"uid" example:"1"`

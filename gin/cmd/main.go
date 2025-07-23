@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"strings"
 
@@ -11,8 +12,8 @@ import (
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
-	"ki9.com/gin_demo/internal/handler"
-	"ki9.com/gin_demo/internal/model/conf"
+	"ki9.com/gin_demo/internal/conf"
+	"ki9.com/gin_demo/internal/router"
 	"ki9.com/gin_demo/pkg/logger"
 )
 
@@ -25,10 +26,16 @@ var cfg = conf.Conf{}
 // @BasePath /api
 func main() {
 
-	// 1. 加载环境变量
+	// 初始化 logger
+	err := logger.Init()
+	if err != nil {
+		log.Fatal("Logger initializing failed", zap.Error(err))
+	}
 
-	// 2. 加载配置
-	//加载conf文件的内容
+	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
+
+	// 加载配置
+	//加载conf文件的内容 TODO: 封装成func loadConfig(path string) (*conf.Conf, error)
 	confFile, err := os.ReadFile("../conf/ginconf-prod.yml")
 	if err != nil {
 		panic(err)
@@ -37,35 +44,32 @@ func main() {
 		panic(err)
 	}
 
-	// 3. //TODO 把gin的logger替换掉
-	logger.InitLogger(os.Getenv("ENV"))
-	logger.ZapLogger.Info("Logger initialized")
-	defer logger.ZapLogger.Sync()
-
 	// 4. 初始化数据库
 
 	// 5. 初始化 Gin
-	r := gin.Default()
+	r := gin.New()
+	r.Use(
+		logger.LoggerMiddleware(logger.Logger),
+		// gin.Logger(),
+		gin.Recovery())
 
-	//CORS策略
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:80", "http://localhost:3000"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
 
+	// 6. 注册路由
+	router.RegisterRouters(r)
+
+	// 7. 注册 Swagger
 	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc
 	if !strings.Contains(os.Getenv("ENV"), "prod") {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	// 6. 注册路由
-	handler.RegisterRouters(r)
-
-	// 7. 注册 Swagger
-
 	// 8. 启动服务
-	logger.ZapLogger.Info("Gin server starting...",
+	logger.Logger.Info("Gin server starting...",
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
 	)

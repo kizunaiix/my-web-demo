@@ -1,11 +1,9 @@
-package handler
+package welcome
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-	"ki9.com/gin_demo/pkg/logger"
 )
 
 // @Tags Hello-world-test
@@ -21,6 +19,4 @@ import (
 // @Failure 404 {object} map[string]interface{} "服务不存在"
 func Welcome(c *gin.Context) {
 	c.String(http.StatusOK, "welcome to api")
-	logger.ZapLogger.Info("Welcome endpoint hit",
-		zap.String("path", c.Request.URL.Path))
 }

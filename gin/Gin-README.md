@@ -7,26 +7,34 @@
 小型的go项目结构：
 
 ```text
-gin/
-├── cmd/                      # 入口文件 -> 可能有多个app
-├── internal/                 # 业务逻辑
-│    ├── handler/             # 控制器层
-│    ├── service/             # 业务逻辑层
-│    ├── repository/          # DAO 层
-│    └── model/               # 数据模型
-├── pkg/                      # 工具包
-├── conf/                     # 配置文件
-├── migrations/               # 数据库迁移脚本
-└── main.go                   # 入口文件 -> 可能是用于dev
+
+my-project-gin/
+├── cmd/
+│   └── main.go
+├── internal/
+│   ├── router/
+│   │   └── router.go         # 注册所有模块路由
+│   ├── {业务模块}/
+│   │   ├── handler.go        # 控制器
+│   │   ├── service.go        # 业务逻辑
+│   │   ├── repository.go     # DAO
+│   │   ├── model.go          # 数据模型 (对应数据库的表结构)
+│   │   └── dto.go            # 数据传输对象 (例如api的请求体和响应体)
+│   ├── .../
+│   └── .../
+├── pkg/
+└── conf/
+    └── config.yml
+
 ```
 
-| 目录                          | 作用                                                | 细节                                                                |
+| 文件                          | 作用                                                | 细节                                                                |
 | ----------------------------- | --------------------------------------------------- | ------------------------------------------------------------------- |
-| handler/ (控制器层)           | 负责 解析 HTTP 请求和返回 JSON 响应，不写业务逻辑   | 解析 c.Param() / c.Query()，调用 service/ 处理业务逻辑              |
-| service/ (业务逻辑层)         | 负责 业务逻辑，调用 repository/ 访问数据库          | 处理数据校验、事务、业务规则等                                      |
-| repository/ (数据访问层，DAO) | 封装数据库操作，使用 GORM 或手写 SQL                | 避免在 service/ 直接写 SQL，保证数据库操作的可复用性                |
-| model/ (数据模型层)           | 定义 struct，存储数据库表映射（ORM 模型）和业务模型 | 可以拆成 model/db.go（数据库模型）和 model/dto.go（前端返回的模型） |
-| pkg/ (工具函数)               | 存放通用的工具函数或库，与业务无关                  | 如日志、时间转换、排序算法、JWT 解析等                              |
+| handler.go                      | 负责 解析 HTTP 请求和返回 JSON 响应，不写业务逻辑   | 解析 c.Param() / c.Query()，调用 service/ 处理业务逻辑              |
+| service.go                   | 负责 业务逻辑，调用 repository/ 访问数据库          | 处理数据校验、事务、业务规则等                                      |
+| repository.go ，也有叫dao.go    | 封装数据库操作，使用 GORM 或手写 SQL                | 避免在 service/ 直接写 SQL，保证数据库操作的可复用性                |
+| model.go                      | 定义 struct，存储数据库表映射（ORM 模型）和业务模型 | 可以拆成 model/db.go（数据库模型）和 model/dto.go（前端返回的模型） |
+| pkg/ (工具函数)                 | 存放通用的工具函数或库，与业务无关                  | 如日志、时间转换、排序算法、JWT 解析等                              |
 
 ## SWAGGER相关
 

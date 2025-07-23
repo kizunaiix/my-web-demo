@@ -1,14 +1,10 @@
-package handler
+package greet
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-type hellomessage struct {
-	Content string `json:"content"`
-}
 
 // @Tags Hello-world-test
 // @Router /posttest [post]
@@ -20,9 +16,9 @@ type hellomessage struct {
 // @Success 200 json string "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // @Failure 404 {object} map[string]interface{} "服务不存在"
-func PostTest(ctx *gin.Context) {
+func Greet(ctx *gin.Context) {
 
-	req := hellomessage{}
+	req := reqBody{}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

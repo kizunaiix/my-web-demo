@@ -1,7 +1,9 @@
-package appmodel
+package task // TODO: 要改成按功能划分。并且拆出来dto.go
 
 import (
 	"time"
+
+	"ki9.com/gin_demo/internal/user"
 )
 
 // 用来代替数据库，暂时先用变量实现task的储存
@@ -13,7 +15,7 @@ type Task struct {
 	UpdateTime     time.Time `json:"updateTime" example:"2023-01-02T20:23:21+01:00"`
 	PlanToDoneTime time.Time `json:"planToDoneTime" example:"2025-03-15T14:58:45+08:00"`
 	ActualDoneTime time.Time `json:"actualDoneTime" example:"2025-05-01T09:31:27+01:00"`
-	Creater        User      `json:"creater"`
+	Creater        user.User `json:"creater"`
 	Description    string    `json:"description" example:"Rule the world"`
 	Status         string    `json:"status" example:"pending"`
 }

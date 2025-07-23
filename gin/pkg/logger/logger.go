@@ -2,44 +2,75 @@ package logger
 
 import (
 	"os"
+	"time"
 
+	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-var ZapLogger *zap.Logger
-var err error
+var Logger *zap.Logger
 
-func InitLogger(env string) error {
+func Init() (err error) {
+	Logger, err = NewLogger()
+	if err != nil {
+		return
+	}
+	return
+}
+
+func NewLogger() (l *zap.Logger, err error) {
+
+	env := os.Getenv("ENV")
+
 	switch env {
 
 	case "dev":
 
-		ZapLogger, err = zap.NewDevelopment()
-		if err != nil {
-			return err
-		}
-		ZapLogger.Info("Logger initialized", zap.String("env", os.Getenv("ENV")))
+		l, err = zap.NewDevelopment()
 
 	case "prod":
 
-		cfg := zap.NewProductionConfig()
-		cfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder   //默认是时间戳，手动改成RFC3339格式
-		cfg.EncoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder //大写的日志级别
-		ZapLogger, err = cfg.Build()
-		if err != nil {
-			return err
-		}
-		ZapLogger.Info("Logger initialized", zap.String("env", os.Getenv("ENV")))
+		l, err = zap.NewProduction()
 
 	default:
-		ZapLogger, err = zap.NewDevelopment()
-		if err != nil {
-			return err
-		}
-		ZapLogger.Info("Logger initialized", zap.String("env", os.Getenv("ENV")))
+
+		logCfg := zap.NewProductionConfig()
+		logCfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
+		l, err = logCfg.Build()
+
 	}
 
-	return nil
+	if err != nil {
+		l.Error("Logger initializing failed", zap.String("env", env))
+	} else {
+		l.Info("Logger initialized", zap.String("env", env))
+	}
 
+	return
+
+}
+
+func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		//开始计时
+		start := time.Now()
+
+		c.Next() // 调用下一个处理器
+
+		//结束计时
+		duration := time.Since(start)
+
+		l.Info("Request Completed",
+			zap.Int("status", c.Writer.Status()),
+			zap.String("method", c.Request.Method),
+			zap.String("path", c.Request.URL.Path),
+			zap.String("query", c.Request.URL.RawQuery),
+			zap.String("client_ip", c.ClientIP()),
+			zap.Duration("duration", duration),
+			zap.Int("size", c.Writer.Size()),
+		)
+
+	}
 }

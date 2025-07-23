@@ -1,10 +1,11 @@
 version: '3'
 
 tasks:
+
   gorun:
     desc: "Init Swagger and run the Go app"
     cmds:
-      - cd cmd && swag init -d ./,../internal/
+      - cd cmd && swag init -d ./,../internal/ # TODO 需要把swag给跑通
       - cd cmd && go run .
 
   gobuild:

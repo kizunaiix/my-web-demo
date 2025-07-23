@@ -66,7 +66,55 @@ func TestRangetest(t *testing.T) {
 	fmt.Println(a)
 }
 
-func Test(t *testing.T) {
+func Test11237(t *testing.T) {
 	var updated bool
 	fmt.Println(updated)
+}
+
+func TestTimeDuration(t *testing.T) {
+	start := time.Now()
+	time.Sleep(2*time.Second + 500*time.Millisecond) // 模拟处理时间
+	end := time.Now()
+
+	duration := end.Sub(start)
+
+	fmt.Printf("Duration: %d\n", duration) //%d可以打印数字
+	fmt.Printf("%0.2f seconds\n", duration.Seconds())
+
+	s := duration.String()
+	fmt.Println(s)
+}
+
+func isPrime(n int) (bool, int) {
+	if n <= 1 {
+		return false, 0
+	}
+	if n <= 3 {
+		return true, 0 // 2 和 3 是质数
+	}
+	if n%2 == 0 {
+		return false, 2 // 排除能被 2 整除的
+	}
+	if n%3 == 0 {
+		return false, 3 // 排除能被 3 整除的
+	}
+	// 检查形如 6k ± 1 的因数
+	for i := 5; i*i <= n; i += 6 {
+		if n%i == 0 {
+			return false, i
+		}
+
+		if n%(i+2) == 0 {
+			return false, i + 2
+		}
+	}
+
+	return true, 0
+}
+
+func TestIsPrime(t *testing.T) {
+	n := 259
+	r, f := isPrime(259)
+	fmt.Printf("%v的判断结果是：%v , 它的因数是：%v\n", n, r, f)
+	//
 }
