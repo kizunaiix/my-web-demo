@@ -37,9 +37,10 @@ func main() {
 		panic(err)
 	}
 
-	// 3. //TODO 初始化 logger
+	// 3. //TODO 把gin的logger替换掉
 	logger.InitLogger(os.Getenv("ENV"))
 	logger.ZapLogger.Info("Logger initialized")
+	defer logger.ZapLogger.Sync()
 
 	// 4. 初始化数据库
 
