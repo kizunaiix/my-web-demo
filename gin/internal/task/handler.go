@@ -30,7 +30,7 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 	err := ctx.BindJSON(b)
 	if err != nil {
 		log.Println("func HandleTask: ", err)
-		ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: err.Error()})
+		ctx.JSON(http.StatusBadRequest, dto.ResponseBody{Code: 400, Msg: err.Error()})
 		return
 	}
 
@@ -39,14 +39,14 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 	case "create":
 
 		if b.Task.IsAlreadyExist() {
-			ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "failed: task already exists"})
+			ctx.JSON(http.StatusBadRequest, dto.ResponseBody{Code: 400, Msg: "failed: task already exists"})
 			return
 		}
 
 		b.Task.Id = uuid.New().String()
 		PgDatabaseTasks = append(PgDatabaseTasks, b.Task)
 
-		ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: b.Task})
+		ctx.JSON(http.StatusOK, dto.ResponseBody{Code: 200, Msg: "success", Data: b.Task})
 		log.Printf("created Task: %v\n", b.Task)
 
 	case "read":
@@ -60,7 +60,7 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 			}
 		}
 
-		ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: searchResults})
+		ctx.JSON(http.StatusOK, dto.ResponseBody{Code: 200, Msg: "success", Data: searchResults})
 		log.Printf("find tasks: %v", searchResults)
 
 	case "update":
@@ -74,15 +74,15 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 		}
 
 		if !updated {
-			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 404, Msg: "no update: task not found"})
+			ctx.JSON(http.StatusOK, dto.ResponseBody{Code: 404, Msg: "no update: task not found"})
 		} else {
-			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "success", Data: b.Task})
+			ctx.JSON(http.StatusOK, dto.ResponseBody{Code: 200, Msg: "success", Data: b.Task})
 		}
 
 	case "delete":
 		if b.Task.Id == "" {
 			log.Printf("invalid request: no task id")
-			ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "invalid request: no task id"})
+			ctx.JSON(http.StatusBadRequest, dto.ResponseBody{Code: 400, Msg: "invalid request: no task id"})
 		} else {
 
 			//遍历数据库并删除相应id的task
@@ -97,11 +97,11 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 			}
 			PgDatabaseTasks = updatedTasks
 
-			ctx.JSON(http.StatusOK, dto.UniResponse{Code: 200, Msg: "Deleted task", Data: delatedTasks})
+			ctx.JSON(http.StatusOK, dto.ResponseBody{Code: 200, Msg: "Deleted task", Data: delatedTasks})
 		}
 
 	default:
-		ctx.JSON(http.StatusBadRequest, dto.UniResponse{Code: 400, Msg: "invaild method: only accept \"create\", \"read\", \"update\", or \"delete\" as \"method\""})
+		ctx.JSON(http.StatusBadRequest, dto.ResponseBody{Code: 400, Msg: "invaild method: only accept \"create\", \"read\", \"update\", or \"delete\" as \"method\""})
 	}
 
 }
