@@ -7,7 +7,7 @@ import (
 )
 
 // 用来代替数据库，暂时先用变量实现task的储存
-var PgDatabaseTasks []Task
+var SliceTasks []Task
 
 type Task struct {
 	Id             string    `json:"id" example:"d29799b5-c693-42ce-8270-0c2b8ccd8300"`
@@ -27,7 +27,7 @@ func (t *Task) IsAlreadyExist() bool {
 	}
 
 	//同用户创建的同内容的第二个Task无效
-	for _, i := range PgDatabaseTasks {
+	for _, i := range SliceTasks {
 		if i.Creater.Uid == t.Creater.Uid && i.Description == t.Description {
 			return true
 		}

@@ -12,7 +12,7 @@ import (
 // @Description post to it, when body is {"content": "hello api"}, you get 200 with answer
 // @Accept json
 // @Produce json
-// @Param jsonbody body hellomessage true "请求体"
+// @Param body body reqBody true "请求体"
 // @Success 200 json string "成功响应"
 // @Failure 400 {object} map[string]interface{} "请求错误"
 // @Failure 404 {object} map[string]interface{} "服务不存在"

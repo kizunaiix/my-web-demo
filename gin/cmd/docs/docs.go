@@ -31,11 +31,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Request body",
-                        "name": "JSON_body",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/rest.HandleTaskBody"
+                            "$ref": "#/definitions/task.reqBody"
                         }
                     }
                 ],
@@ -43,19 +43,19 @@ const docTemplate = `{
                     "200": {
                         "description": "操作结果",
                         "schema": {
-                            "$ref": "#/definitions/rest.UniResponse"
+                            "$ref": "#/definitions/dto.UniResponseBody"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/rest.UniResponse"
+                            "$ref": "#/definitions/dto.UniResponseBody"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/rest.UniResponse"
+                            "$ref": "#/definitions/dto.UniResponseBody"
                         }
                     }
                 }
@@ -77,11 +77,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "请求体",
-                        "name": "jsonbody",
+                        "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.hellomessage"
+                            "$ref": "#/definitions/greet.reqBody"
                         }
                     }
                 ],
@@ -164,7 +164,29 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "appmodel.Task": {
+        "dto.UniResponseBody": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "greet.reqBody": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "task.Task": {
             "type": "object",
             "properties": {
                 "actualDoneTime": {
@@ -176,7 +198,7 @@ const docTemplate = `{
                     "example": "2023-01-02T18:07:05Z"
                 },
                 "creater": {
-                    "$ref": "#/definitions/appmodel.User"
+                    "$ref": "#/definitions/user.User"
                 },
                 "description": {
                     "type": "string",
@@ -200,7 +222,19 @@ const docTemplate = `{
                 }
             }
         },
-        "appmodel.User": {
+        "task.reqBody": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "example": "create"
+                },
+                "task": {
+                    "$ref": "#/definitions/task.Task"
+                }
+            }
+        },
+        "user.User": {
             "type": "object",
             "properties": {
                 "name": {
@@ -210,40 +244,6 @@ const docTemplate = `{
                 "uid": {
                     "type": "integer",
                     "example": 1
-                }
-            }
-        },
-        "handler.hellomessage": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                }
-            }
-        },
-        "rest.HandleTaskBody": {
-            "type": "object",
-            "properties": {
-                "method": {
-                    "type": "string",
-                    "example": "create"
-                },
-                "task": {
-                    "$ref": "#/definitions/appmodel.Task"
-                }
-            }
-        },
-        "rest.UniResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "example": 200
-                },
-                "data": {},
-                "msg": {
-                    "type": "string",
-                    "example": "success"
                 }
             }
         }

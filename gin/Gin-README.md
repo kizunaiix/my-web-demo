@@ -44,15 +44,15 @@ cd到cmd目录,执行`swag init -d ./,../internal/handler`，swag会在当前cd�
 
 现在会根据环境变量ENV里是否包含"prod"来保证不在生产环境加载swagger文档。
 
-### 注释的写法 
-
+### 注释的写法
 
 ```go
-// @Param [参数名] [参数类型] [数据类型] [是否必要：false|true] "描述"
+// @Param <参数名> <位置> <数据类型> <是否必要：false|true> "描述"
 ```
 
 其中：
-- 参数类型有：query | path | header | body | formData
+
+- 位置有：query | path | header | body | formData
 - 数据类型有：string (string) | integer (int, uint, uint32, uint64) | number (float32) | boolean (bool) | user defined struct
 
 ## 构建命令

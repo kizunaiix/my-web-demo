@@ -1,6 +1,21 @@
 basePath: /api
 definitions:
-  appmodel.Task:
+  dto.UniResponseBody:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+      msg:
+        example: success
+        type: string
+    type: object
+  greet.reqBody:
+    properties:
+      content:
+        type: string
+    type: object
+  task.Task:
     properties:
       actualDoneTime:
         example: "2025-05-01T09:31:27+01:00"
@@ -9,7 +24,7 @@ definitions:
         example: "2023-01-02T18:07:05Z"
         type: string
       creater:
-        $ref: '#/definitions/appmodel.User'
+        $ref: '#/definitions/user.User'
       description:
         example: Rule the world
         type: string
@@ -26,7 +41,15 @@ definitions:
         example: "2023-01-02T20:23:21+01:00"
         type: string
     type: object
-  appmodel.User:
+  task.reqBody:
+    properties:
+      method:
+        example: create
+        type: string
+      task:
+        $ref: '#/definitions/task.Task'
+    type: object
+  user.User:
     properties:
       name:
         example: kizunai9
@@ -34,29 +57,6 @@ definitions:
       uid:
         example: 1
         type: integer
-    type: object
-  handler.hellomessage:
-    properties:
-      content:
-        type: string
-    type: object
-  rest.HandleTaskBody:
-    properties:
-      method:
-        example: create
-        type: string
-      task:
-        $ref: '#/definitions/appmodel.Task'
-    type: object
-  rest.UniResponse:
-    properties:
-      code:
-        example: 200
-        type: integer
-      data: {}
-      msg:
-        example: success
-        type: string
     type: object
 host: localhost:9000
 info:
@@ -78,25 +78,25 @@ paths:
       parameters:
       - description: Request body
         in: body
-        name: JSON_body
+        name: body
         required: true
         schema:
-          $ref: '#/definitions/rest.HandleTaskBody'
+          $ref: '#/definitions/task.reqBody'
       produces:
       - application/json
       responses:
         "200":
           description: 操作结果
           schema:
-            $ref: '#/definitions/rest.UniResponse'
+            $ref: '#/definitions/dto.UniResponseBody'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/rest.UniResponse'
+            $ref: '#/definitions/dto.UniResponseBody'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/rest.UniResponse'
+            $ref: '#/definitions/dto.UniResponseBody'
       summary: create, read, update, or delete a task based on method
       tags:
       - appapi
@@ -109,10 +109,10 @@ paths:
       parameters:
       - description: 请求体
         in: body
-        name: jsonbody
+        name: body
         required: true
         schema:
-          $ref: '#/definitions/handler.hellomessage'
+          $ref: '#/definitions/greet.reqBody'
       produces:
       - application/json
       responses:
