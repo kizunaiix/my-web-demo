@@ -43,7 +43,7 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 		}
 
 		b.Task.Id = uuid.New().String()
-		SliceTasks = append(SliceTasks, b.Task)
+		TaskSlice = append(TaskSlice, b.Task)
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
 		log.Printf("created Task: %v\n", b.Task)
@@ -52,7 +52,7 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 
 		var searchResults []Task
 
-		for _, v := range SliceTasks {
+		for _, v := range TaskSlice {
 
 			if v.Creater.Uid == b.Task.Creater.Uid {
 				searchResults = append(searchResults, v)
@@ -65,9 +65,9 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 	case "update":
 
 		updated := false
-		for i, v := range SliceTasks {
+		for i, v := range TaskSlice {
 			if v.Id == b.Task.Id {
-				SliceTasks[i] = b.Task
+				TaskSlice[i] = b.Task
 				updated = true
 			}
 		}
@@ -87,14 +87,14 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 			//遍历数据库并删除相应id的task
 			updatedTasks := []Task{}
 			delatedTasks := []Task{}
-			for i, v := range SliceTasks {
+			for i, v := range TaskSlice {
 				if v.Id != b.Task.Id {
-					updatedTasks = append(updatedTasks, SliceTasks[i])
+					updatedTasks = append(updatedTasks, TaskSlice[i])
 				} else {
-					delatedTasks = append(delatedTasks, SliceTasks[i])
+					delatedTasks = append(delatedTasks, TaskSlice[i])
 				}
 			}
-			SliceTasks = updatedTasks
+			TaskSlice = updatedTasks
 
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "Deleted task", Data: delatedTasks})
 		}
