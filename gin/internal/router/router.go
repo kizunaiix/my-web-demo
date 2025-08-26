@@ -9,7 +9,7 @@ import (
 	"ki9.com/gin_demo/internal/task"
 )
 
-func RegisterRouters(r *gin.Engine) {
+func RegisterRouters(r *gin.Engine) { // TODO router.go完全不需要了，改成在各自的模块里注册路由
 
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, &struct{ SwaggerDocs string }{SwaggerDocs: "http://localhost:9000/"})

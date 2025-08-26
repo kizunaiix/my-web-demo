@@ -1,6 +1,7 @@
 package task
 
 type TaskService interface {
+	IsAlreadyExist(r TaskRepository, t *Task) bool
 }
 
 type taskService struct {
@@ -12,13 +13,13 @@ func NewTaskService(repo TaskRepository) *taskService {
 }
 
 // 判断解析出的task是不是旧的,id不为空即为新的task
-func (t *Task) IsAlreadyExist() bool {
+func (ts *taskService) IsAlreadyExist(r TaskRepository, t *Task) bool {
 	if t.Id != "" {
 		return true
 	}
 
 	//同用户创建的同内容的第二个Task无效
-	for _, i := range TaskSlice {
+	for _, i := range r.GetAllTasks() {
 		if i.Creater.Uid == t.Creater.Uid && i.Description == t.Description {
 			return true
 		}

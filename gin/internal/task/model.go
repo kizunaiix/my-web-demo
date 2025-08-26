@@ -6,8 +6,6 @@ import (
 	"ki9.com/gin_demo/internal/user"
 )
 
-var TaskSlice []Task
-
 type Task struct {
 	Id             string    `json:"id" example:"d29799b5-c693-42ce-8270-0c2b8ccd8300"`
 	CreateTime     time.Time `json:"createTime" example:"2023-01-02T18:07:05Z"`
