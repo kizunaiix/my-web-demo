@@ -13,7 +13,7 @@ func NewTaskService(repo TaskRepository) *taskService {
 }
 
 // 判断解析出的task是不是旧的,id不为空即为新的task
-func (ts *taskService) IsAlreadyExist(r TaskRepository, t *Task) bool {
+func (ts *taskService) IsAlreadyExist(r TaskRepository, t *Task) bool { //TODO: 函数名不合适
 	if t.Id != "" {
 		return true
 	}
