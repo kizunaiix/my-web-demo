@@ -9,6 +9,18 @@ import (
 	"ki9.com/gin_demo/internal/dto"
 )
 
+type TaskHandler struct {
+	svc TaskService
+}
+
+func NewTaskHandler(svc TaskService) *TaskHandler {
+	return &TaskHandler{svc: svc}
+}
+
+func (h *TaskHandler) TaskHandlerFunc(c *gin.Context) {
+
+}
+
 // @Tags appapi
 // @Router /handle-task [post]
 // @Summary create, read, update, or delete a task based on method

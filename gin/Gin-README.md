@@ -15,7 +15,7 @@ my-project-gin/
 │   ├── router/
 │   │   └── router.go         # 注册所有模块路由
 │   ├── server/
-│   │   └── run.go            # 组装依赖 & 启动 HTTP 服务    #TODO 加上这个 
+│   │   └── run.go            # 组装依赖 & 启动 HTTP 服务    
 │   ├── {业务模块}/
 │   │   ├── handler.go        # 控制器
 │   │   ├── service.go        # 业务逻辑
