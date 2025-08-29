@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"ki9.com/gin_demo/internal/dto"
 )
 
@@ -15,10 +14,6 @@ type TaskHandler struct {
 
 func NewTaskHandler(svc TaskService) *TaskHandler {
 	return &TaskHandler{svc: svc}
-}
-
-func (h *TaskHandler) TaskHandlerFunc(c *gin.Context) {
-
 }
 
 // @Tags appapi
@@ -35,7 +30,7 @@ func (h *TaskHandler) TaskHandlerFunc(c *gin.Context) {
 // @Success 200 {object} dto.UniResponseBody "操作结果"
 // @Failure 400 {object} dto.UniResponseBody
 // @Failure 404 {object} dto.UniResponseBody
-func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单独的service.go中
+func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单独的service.go中
 	b := &reqBody{}
 
 	err := ctx.BindJSON(b)
@@ -49,40 +44,21 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 	switch b.Method {
 	case "create":
 
-		if b.Task.IsAlreadyExist() {
-			ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: "failed: task already exists"})
-			return
-		}
-
-		b.Task.Id = uuid.New().String()
-		TaskRepoMemSlice.tasks = append(TaskRepoMemSlice.tasks, b.Task)
+		h.svc.CreateTask(b.Task)
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
 		log.Printf("created Task: %v\n", b.Task)
 
 	case "read":
 
-		var searchResults []Task
-
-		for _, v := range TaskRepoMemSlice.tasks {
-
-			if v.Creater.Uid == b.Task.Creater.Uid {
-				searchResults = append(searchResults, v)
-			}
-		}
+		var searchResults = h.svc.ReadTask(b.Task.Id)
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: searchResults})
 		log.Printf("find tasks: %v", searchResults)
 
 	case "update":
 
-		updated := false
-		for i, v := range TaskRepoMemSlice.tasks {
-			if v.Id == b.Task.Id {
-				TaskRepoMemSlice.tasks[i] = b.Task
-				updated = true
-			}
-		}
+		updated := h.svc.UpdateTask(b.Task.Id)
 
 		if !updated {
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no update: task not found"})
@@ -96,17 +72,7 @@ func HandleTask(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单
 			ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: "invalid request: no task id"})
 		} else {
 
-			//遍历数据库并删除相应id的task
-			updatedTasks := []Task{}
-			delatedTasks := []Task{}
-			for i, v := range TaskRepoMemSlice.tasks {
-				if v.Id != b.Task.Id {
-					updatedTasks = append(updatedTasks, TaskRepoMemSlice.tasks[i])
-				} else {
-					delatedTasks = append(delatedTasks, TaskRepoMemSlice.tasks[i])
-				}
-			}
-			TaskRepoMemSlice.tasks = updatedTasks
+			delatedTasks := h.svc.DeleteTask(b.Task.Id)
 
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "Deleted task", Data: delatedTasks})
 		}
