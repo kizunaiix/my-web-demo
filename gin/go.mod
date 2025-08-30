@@ -18,12 +18,21 @@ require (
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
 	github.com/go-openapi/spec v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
+	github.com/jackc/pgx/v5 v5.6.0 // indirect
+	github.com/jackc/puddle/v2 v2.2.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
+	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/tools v0.30.0 // indirect
+	gorm.io/driver/postgres v1.6.0 // indirect
+	gorm.io/gorm v1.30.2 // indirect
 )
 
 require (
