@@ -1,6 +1,7 @@
 package task // TODO 改完service里的报错
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -8,13 +9,14 @@ import (
 )
 
 type TaskService interface {
-	TaskIsAlreadyExist(t *Task) bool
-	GetAllTasks() []Task
+	GetAllTasks() []*Task
 	CreateTask(t Task)
 	ReadTask(uid string) []Task
 	UpdateTask(uid string) bool
 	DeleteTask(uids ...string) []Task
 }
+
+var _ TaskService = (*taskService)(nil)
 
 type taskService struct {
 	repo TaskRepository
@@ -25,27 +27,29 @@ func NewTaskService(repo TaskRepository) *taskService {
 }
 
 // 判断解析出的task是不是旧的,id不为空即为新的task
-func (svc *taskService) TaskIsAlreadyExist(t *Task) bool { //TODO: 函数名不合适
+func (svc *taskService) taskIsNew(t *Task) (bool, error) { //TODO: 函数名不合适
+	//新的task的id应该是空的
 	if t.Id != "" {
-		return true
+		return false, errors.New("task id should be empty for new task")
 	}
 
 	//同用户创建的同内容的第二个Task无效
-	for _, i := range svc.repo.GetAllTasks() {
-		if i.Creater.Uid == t.Creater.Uid && i.Description == t.Description {
-			return true
+	for _, v := range svc.repo.GetAllTasks() {
+		if v.Creater.Uid == t.Creater.Uid && v.Description == t.Description {
+			return false, errors.New("task already exists for this user with the same description")
 		}
 	}
 
-	return false
+	return true, nil
 }
 
-func (svc *taskService) GetAllTasks() []Task {
+func (svc *taskService) GetAllTasks() []*Task {
 	return svc.repo.GetAllTasks()
 }
 
-func (svc *taskService) CreateTask(t Task) {
-	if h.svc.TaskIsAlreadyExist(&b.Task) {
+func (svc *taskService) CreateTask(t *Task) { // TODO 写到这了，这个函数应该能返回err
+	ok, err := svc.taskIsNew(t)
+	if !ok {
 		ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: "failed: task already exists"})
 		return
 	}
