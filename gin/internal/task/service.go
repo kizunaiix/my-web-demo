@@ -2,16 +2,15 @@ package task // TODO 改完service里的报错
 
 import (
 	"errors"
-	"net/http"
+	"fmt"
 
 	"github.com/google/uuid"
-	"ki9.com/gin_demo/internal/dto"
 )
 
 type TaskService interface {
 	GetAllTasks() []*Task
-	CreateTask(t Task)
-	ReadTask(uid string) []Task
+	CreateTask(t Task) error
+	GetTasksByUser(userid int) ([]*Task, error)
 	UpdateTask(uid string) bool
 	DeleteTask(uids ...string) []Task
 }
@@ -27,7 +26,7 @@ func NewTaskService(repo TaskRepository) *taskService {
 }
 
 // 判断解析出的task是不是旧的,id不为空即为新的task
-func (svc *taskService) taskIsNew(t *Task) (bool, error) { //TODO: 函数名不合适
+func (svc *taskService) taskIsNew(t *Task) (bool, error) {
 	//新的task的id应该是空的
 	if t.Id != "" {
 		return false, errors.New("task id should be empty for new task")
@@ -47,29 +46,33 @@ func (svc *taskService) GetAllTasks() []*Task {
 	return svc.repo.GetAllTasks()
 }
 
-func (svc *taskService) CreateTask(t *Task) { // TODO 写到这了，这个函数应该能返回err
-	ok, err := svc.taskIsNew(t)
-	if !ok {
-		ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: "failed: task already exists"})
-		return
+func (svc *taskService) CreateTask(t *Task) error {
+
+	//先检查task有没有id。没有的话是新的task，要给一个id
+	if t.Id == "" {
+		t.Id = uuid.New().String()
 	}
 
-	b.Task.Id = uuid.New().String()
-
-	allTasks = append(h.svc.GetAllTasks(), b.Task)
-
-}
-
-func (svc *taskService) ReadTask(uid string) []Task {
-	for _, v := range h.svc.GetAllTasks() {
-
-		if v.Creater.Uid == b.Task.Creater.Uid {
-			searchResults = append(searchResults, v)
+	ok, err := svc.taskIsNew(t)
+	if err != nil {
+		return fmt.Errorf("failed to create task: %w", err)
+	}
+	if ok {
+		svc.repo.CreateTask(t)
+		if err != nil {
+			return fmt.Errorf("failed to create task: %w", err)
 		}
 	}
+
+	return nil
 }
 
-func (svc *taskService) UpdateTask(uid string) bool {
+func (svc *taskService) GetTasksByUser(userid int) ([]*Task, error) {
+	ts, err := svc.repo.GetTasksByUser(userid)
+	return ts, fmt.Errorf("failed to get tasks by user: %w", err)
+}
+
+func (svc *taskService) UpdateTask(uid string) bool { //TODO 写到这里
 	updated := false
 	for i, v := range h.svc.GetAllTasks() {
 		if v.Id == b.Task.Id {

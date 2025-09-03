@@ -10,6 +10,7 @@ type TaskRepository interface {
 	// TODO 增删改查方法的抽象搬过来
 	GetAllTasks() []*Task
 	GetTaskById(id string) (*Task, error)
+	GetTasksByUser(userid int) (ts []*Task, e error)
 	CreateTask(t *Task) error
 	UpdateTask(t *Task) error
 	DeleteTask(id string) error
@@ -42,6 +43,19 @@ func (r *taskRepositoryMemSlice) GetTaskById(id string) (t *Task, e error) {
 		}
 	}
 	return &Task{}, errors.New("task not found")
+}
+
+func (r *taskRepositoryMemSlice) GetTasksByUser(userid int) (ts []*Task, e error) {
+	for _, t := range r.tasks {
+		if userid == t.Creater.Uid {
+			ts = append(ts, t)
+		}
+	}
+
+	if len(ts) == 0 {
+		return []*Task{}, errors.New("no tasks found for this user")
+	}
+	return ts, nil
 }
 
 func (r *taskRepositoryMemSlice) CreateTask(t *Task) error {

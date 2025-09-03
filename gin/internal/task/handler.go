@@ -5,7 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"ki9.com/gin_demo/internal/dto"
+	"ki9.com/gin_demo/pkg/logger"
 )
 
 type TaskHandler struct {
@@ -51,7 +53,12 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 
 	case "read":
 
-		var searchResults = h.svc.ReadTask(b.Task.Id)
+		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
+		if err != nil {
+			logger.Logger.Error("GetTasksByUser failed", zap.Error(err))
+			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"})
+			return
+		}
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: searchResults})
 		log.Printf("find tasks: %v", searchResults)
