@@ -46,7 +46,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 	switch b.Method {
 	case "create":
 
-		h.svc.CreateTask(b.Task)
+		h.svc.CreateTask(&b.Task)
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
 		log.Printf("created Task: %v\n", b.Task)
@@ -55,7 +55,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 
 		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
 		if err != nil {
-			logger.Logger.Error("GetTasksByUser failed", zap.Error(err))
+			logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO READ 这里报错
 			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"})
 			return
 		}
@@ -65,13 +65,13 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 
 	case "update":
 
-		updated := h.svc.UpdateTask(b.Task.Id)
-
-		if !updated {
+		if err = h.svc.UpdateTask(&b.Task); err != nil {
+			logger.Logger.Error("UpdateTask failed", zap.Error(err))
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no update: task not found"})
-		} else {
-			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
+			return
 		}
+
+		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
 
 	case "delete":
 		if b.Task.Id == "" {
@@ -79,7 +79,12 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 			ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: "invalid request: no task id"})
 		} else {
 
-			delatedTasks := h.svc.DeleteTask(b.Task.Id)
+			delatedTasks, err := h.svc.DeleteTasksById(b.Task.Id)
+			if err != nil {
+				logger.Logger.Error("DeleteTasksById failed", zap.Error(err))
+				ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no delete: task not found"})
+				return
+			}
 
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "Deleted task", Data: delatedTasks})
 		}
