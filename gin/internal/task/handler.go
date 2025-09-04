@@ -55,8 +55,8 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 
 		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
 		if err != nil {
-			logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO READ 这里报错
-			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"})
+			logger.Logger.Error("GetTasksByUser failed", zap.Error(err))
+			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个找不到的时候404
 			return
 		}
 

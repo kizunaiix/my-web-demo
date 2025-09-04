@@ -52,7 +52,10 @@ func (svc *taskService) CreateTask(t *Task) error {
 
 func (svc *taskService) GetTasksByUser(userid int) ([]*Task, error) {
 	ts, err := svc.repo.GetTasksByUser(userid)
-	return ts, fmt.Errorf("failed to get tasks by user: %w", err)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get tasks by user: %w", err)
+	}
+	return ts, nil
 }
 
 func (svc *taskService) UpdateTask(t *Task) error {
