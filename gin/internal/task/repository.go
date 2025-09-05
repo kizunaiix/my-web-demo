@@ -16,6 +16,11 @@ type TaskRepository interface {
 	DeleteTask(id string) error
 }
 
+var (
+	_ TaskRepository = (*taskRepositoryMemSlice)(nil)
+	// _ taskRepositoryPgsql = (*taskRepositoryMemSlice)(nil)
+)
+
 // TODO Pgsql的Repository实现
 type taskRepositoryPgsql struct {
 	db *gorm.DB

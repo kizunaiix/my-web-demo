@@ -15,6 +15,8 @@ type TaskService interface {
 	DeleteTasksById(id ...string) ([]*Task, error)
 }
 
+var _ TaskService = (*taskService)(nil)
+
 type taskService struct {
 	repo TaskRepository
 }
