@@ -10,7 +10,7 @@ type TaskRepository interface {
 	// TODO 增删改查方法的抽象搬过来
 	GetAllTasks() []*Task
 	GetTaskById(id string) (*Task, error)
-	GetTasksByUser(userid int) (ts []*Task, e error)
+	GetTasksByUser(userid int) ([]*Task, error)
 	CreateTask(t *Task) error
 	UpdateTask(t *Task) error
 	DeleteTask(id string) error
@@ -41,7 +41,7 @@ func (r *taskRepositoryMemSlice) GetAllTasks() []*Task {
 	return r.tasks
 }
 
-func (r *taskRepositoryMemSlice) GetTaskById(id string) (t *Task, e error) {
+func (r *taskRepositoryMemSlice) GetTaskById(id string) (*Task, error) {
 	for _, t := range r.tasks {
 		if id == t.Id {
 			return t, nil

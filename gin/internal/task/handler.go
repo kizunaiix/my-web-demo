@@ -32,7 +32,7 @@ func NewTaskHandler(svc TaskService) *TaskHandler {
 // @Success 200 {object} dto.UniResponseBody "操作结果"
 // @Failure 400 {object} dto.UniResponseBody
 // @Failure 404 {object} dto.UniResponseBody
-func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑应该拆出来放到单独的service.go中
+func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 	b := &reqBody{}
 
 	err := ctx.BindJSON(b)
@@ -56,7 +56,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { //TODO:CRUD的逻辑�
 		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
 		if err != nil {
 			logger.Logger.Error("GetTasksByUser failed", zap.Error(err))
-			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个找不到的时候404
+			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个根据error写非200响应的中间件
 			return
 		}
 
