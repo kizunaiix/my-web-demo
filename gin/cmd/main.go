@@ -23,7 +23,7 @@ func main() {
 
 	// --------------------------------------------------------------------
 	// 初始化 logger
-	err := logger.Init()
+	err := logger.InitLogger()
 	if err != nil {
 		log.Fatal("Logger initializing failed", zap.Error(err))
 	}

@@ -11,7 +11,7 @@ import (
 
 var Logger *zap.Logger
 
-func Init() (err error) {
+func InitLogger() (err error) {
 	Logger, err = NewLogger()
 	if err != nil {
 		return
