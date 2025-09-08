@@ -56,7 +56,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 
 		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
 		if err != nil {
-			logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO 这里直接把error给ctx由中间件统一打印
+			logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO 这里直接把error给ctx由中间件统一打印.
 			logger.Logger.Debug("test debug log")
 			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个根据error写非200响应的中间件
 			return
