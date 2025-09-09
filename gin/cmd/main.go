@@ -12,7 +12,7 @@ import (
 	"ki9.com/gin_demo/pkg/logger"
 )
 
-var cfg = conf.Conf{}
+var cfg = &conf.Conf{}
 
 // @title 习惯养成 API 文档
 // @version 0.3.2
@@ -23,12 +23,12 @@ func main() {
 
 	// --------------------------------------------------------------------
 	// 初始化 logger
-	err := logger.InitLogger()
+	l, err := logger.NewLogger(os.Getenv("ENV"))
 	if err != nil {
 		log.Fatal("Logger initializing failed", zap.Error(err))
 	}
 
-	defer logger.Logger.Sync() // 确保日志在程序结束时被写入
+	defer l.Sync() // 确保日志在程序结束时被写入
 
 	// --------------------------------------------------------------------
 	// 加载配置
@@ -37,9 +37,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err = yaml.Unmarshal(confFile, &cfg); err != nil {
+	if err = yaml.Unmarshal(confFile, cfg); err != nil {
 		panic(err)
 	}
 
-	server.Run()
+	server.Run(l, cfg)
 }

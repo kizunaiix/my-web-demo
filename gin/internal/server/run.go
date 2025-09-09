@@ -10,18 +10,19 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
+	"ki9.com/gin_demo/internal/conf"
 	"ki9.com/gin_demo/internal/helloworld/greet"
 	"ki9.com/gin_demo/internal/helloworld/welcome"
 	"ki9.com/gin_demo/internal/task"
 	"ki9.com/gin_demo/pkg/logger"
 )
 
-func Run() {
+func Run(l *zap.Logger, cfg *conf.Conf) {
 	// --------------------------------------------------------------------
 	// 初始化 Gin
 	r := gin.New()
 	r.Use(
-		logger.LoggerMiddleware(logger.Logger),
+		logger.LoggerMiddleware(l),
 		gin.Recovery(),
 		cors.New(cors.Config{
 			AllowOrigins: []string{"http://localhost:80", "http://localhost:3000"},
@@ -54,7 +55,7 @@ func Run() {
 
 	// --------------------------------------------------------------------
 	// 启动服务
-	logger.Logger.Info("Gin server starting...",
+	l.Info("Gin server starting...",
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
 	)
