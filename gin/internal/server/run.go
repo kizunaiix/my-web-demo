@@ -13,6 +13,7 @@ import (
 	"ki9.com/gin_demo/internal/conf"
 	"ki9.com/gin_demo/internal/helloworld/greet"
 	"ki9.com/gin_demo/internal/helloworld/welcome"
+	"ki9.com/gin_demo/internal/middleware/errhandler"
 	"ki9.com/gin_demo/internal/task"
 	"ki9.com/gin_demo/pkg/logger"
 )
@@ -22,8 +23,9 @@ func Run(l *zap.Logger, cfg *conf.Conf) {
 	// 初始化 Gin
 	r := gin.New()
 	r.Use(
-		logger.LoggerMiddleware(l),
 		gin.Recovery(),
+		logger.LoggerMiddleware(l),
+		errhandler.ErrorHandlerMiddleware,
 		cors.New(cors.Config{
 			AllowOrigins: []string{"http://localhost:80", "http://localhost:3000"},
 			AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},

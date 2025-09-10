@@ -8,15 +8,13 @@ import (
 	"ki9.com/gin_demo/internal/dto"
 )
 
-// TODO logger中间件应该记录c.Errors错误
-
 func ErrorHandlerMiddleware(c *gin.Context) {
 	c.Next()
 
 	if len(c.Errors) > 0 {
 		err := c.Errors.Last().Err
 
-		if be, ok := err.(BizError); ok {
+		if be, ok := err.(BizError); ok { //TODO BizError还没用上过，所有error都是走下面的9999去了
 			c.JSON(
 				be.StatusCode(),
 				dto.UniResponseBody{

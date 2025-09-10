@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"ki9.com/gin_demo/internal/dto"
-	"ki9.com/gin_demo/pkg/logger"
 )
 
 type TaskHandler struct {
@@ -34,11 +33,13 @@ func NewTaskHandler(svc TaskService) *TaskHandler {
 // @Failure 400 {object} dto.UniResponseBody
 // @Failure 404 {object} dto.UniResponseBody
 func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
+	logger := ctx.MustGet("logger").(*zap.Logger)
+
 	b := &reqBody{}
 
 	err := ctx.BindJSON(b)
 	if err != nil {
-		log.Println("func HandleTask: ", err)
+		logger.Error("BindJSON failed", zap.Error(err))
 		ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: err.Error()})
 		return
 	}
@@ -50,25 +51,26 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 		h.svc.CreateTask(&b.Task)
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
-		log.Printf("created Task: %v\n", b.Task)
+		logger.Info(fmt.Sprintf("created Task: %v", b.Task))
 
 	case "read":
 
 		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
 		if err != nil {
-			logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO 这里直接把error给ctx由中间件统一打印.
-			logger.Logger.Debug("test debug log")
-			ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个根据error写非200响应的中间件
+			ctx.Error(err)
+			// logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO 这里直接把error给ctx由中间件统一打印.
+			// logger.Logger.Debug("test debug log")
+			// ctx.JSON(http.StatusInternalServerError, dto.UniResponseBody{Code: 500, Msg: "internal server error"}) //TODO 加个根据error写非200响应的中间件
 			return
 		}
 
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: searchResults})
-		logger.Logger.Info(fmt.Sprintf("find tasks: %v", searchResults), zap.Int("num", len(searchResults)))
+		logger.Info(fmt.Sprintf("find tasks: %v", searchResults), zap.Int("num", len(searchResults)))
 
 	case "update":
 
 		if err = h.svc.UpdateTask(&b.Task); err != nil {
-			logger.Logger.Error("UpdateTask failed", zap.Error(err))
+			logger.Error("UpdateTask failed", zap.Error(err)) //TODO 删掉，以及往下的部分都还没修改
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no update: task not found"})
 			return
 		}
@@ -83,7 +85,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 
 			delatedTasks, err := h.svc.DeleteTasksById(b.Task.Id)
 			if err != nil {
-				logger.Logger.Error("DeleteTasksById failed", zap.Error(err))
+				logger.Error("DeleteTasksById failed", zap.Error(err))
 				ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no delete: task not found"})
 				return
 			}
