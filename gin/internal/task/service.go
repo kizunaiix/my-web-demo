@@ -1,10 +1,10 @@
 package task // TODO 改完service里的报错
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/google/uuid"
+	"ki9.com/gin_demo/internal/middleware/err"
 )
 
 type TaskService interface {
@@ -35,13 +35,13 @@ func (svc *taskService) CreateTask(t *Task) error {
 	if t.Id == "" {
 		t.Id = uuid.New().String()
 	} else {
-		return errors.New("failed to create task: task id should be empty for new task")
+		return err.ErrServerError("failed to create task: task id should be empty for new task")
 	}
 
 	//同用户创建的同内容的第二个Task无效
 	for _, v := range svc.repo.GetAllTasks() {
 		if v.Creater.Uid == t.Creater.Uid && v.Description == t.Description {
-			return errors.New("failed to create task: task already exists for this user with the same description")
+			return err.ErrServerError("failed to create task: task already exists for this user with the same description")
 		}
 	}
 
@@ -75,7 +75,7 @@ func (svc *taskService) DeleteTasksById(id ...string) ([]*Task, error) {
 	for _, id := range id {
 		t, err := svc.repo.GetTaskById(id)
 		if err != nil {
-			return nil, fmt.Errorf("failed to find task to delete: %w", err)
+			return nil, fmt.Errorf("failed to delete task: %w", err)
 		}
 		delatedTasks = append(delatedTasks, t)
 		err = svc.repo.DeleteTask(id)

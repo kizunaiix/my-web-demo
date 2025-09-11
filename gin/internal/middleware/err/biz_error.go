@@ -1,4 +1,4 @@
-package errhandler
+package err
 
 type BizError interface {
 	error
@@ -14,7 +14,7 @@ type bizError struct {
 	bizCode  int
 }
 
-func NewBizError(m string, httpcode int, bizcode int) *bizError {
+func New(m string, httpcode int, bizcode int) *bizError {
 	return &bizError{
 		msg:      m,
 		httpCode: httpcode,
@@ -29,9 +29,7 @@ func (r *bizError) StatusCode() int { return r.httpCode }
 func (r *bizError) BizCode() int { return r.bizCode }
 
 // 自定义标准错误
-var (
-	ErrBadRequest  = NewBizError("bad request", 400, 10400)
-	ErrForbidden   = NewBizError("forbidden", 403, 10403)
-	ErrNotFound    = NewBizError("resource not found", 404, 10404)
-	ErrServerError = NewBizError("internal server error", 500, 10500)
-)
+func ErrBadRequest(msg string) *bizError  { return New(msg, 400, 10400) }
+func ErrForbidden(msg string) *bizError   { return New(msg, 403, 10403) }
+func ErrNotFound(msg string) *bizError    { return New(msg, 404, 10404) }
+func ErrServerError(msg string) *bizError { return New(msg, 500, 10500) }

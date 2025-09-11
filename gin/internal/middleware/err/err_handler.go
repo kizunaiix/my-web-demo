@@ -1,6 +1,7 @@
-package errhandler
+package err
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,13 +9,15 @@ import (
 	"ki9.com/gin_demo/internal/dto"
 )
 
+var be BizError
+
 func ErrorHandlerMiddleware(c *gin.Context) {
 	c.Next()
 
 	if len(c.Errors) > 0 {
 		err := c.Errors.Last().Err
 
-		if be, ok := err.(BizError); ok { //TODO BizError还没用上过，所有error都是走下面的9999去了
+		if ok := errors.As(err, &be); ok { //这里会遇到可能是包装过的err，所以要用errors.As()。记得先定义var be BizError
 			c.JSON(
 				be.StatusCode(),
 				dto.UniResponseBody{

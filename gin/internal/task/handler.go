@@ -46,11 +46,14 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 
 	//仅接受特定的mathod：CRUD，否则400
 	switch b.Method {
-	case "create":
+	case "create": //TODO 从这里开始整改error处理
 
-		h.svc.CreateTask(&b.Task)
+		if err := h.svc.CreateTask(&b.Task); err != nil {
+			ctx.Error(err)
+			return
+		}
 
-		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task})
+		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task}) // TODO这里不能直接返task，因为task有可能是不合格的，需要由函数返
 		logger.Info(fmt.Sprintf("created Task: %v", b.Task))
 
 	case "read":

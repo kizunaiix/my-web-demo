@@ -1,9 +1,8 @@
 package task
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
+	"ki9.com/gin_demo/internal/middleware/err"
 )
 
 type TaskRepository interface {
@@ -47,7 +46,7 @@ func (r *taskRepositoryMemSlice) GetTaskById(id string) (*Task, error) {
 			return t, nil
 		}
 	}
-	return &Task{}, errors.New("task not found")
+	return &Task{}, err.ErrNotFound("Task not found")
 }
 
 func (r *taskRepositoryMemSlice) GetTasksByUser(userid int) (ts []*Task, e error) {
@@ -58,7 +57,7 @@ func (r *taskRepositoryMemSlice) GetTasksByUser(userid int) (ts []*Task, e error
 	}
 
 	if len(ts) == 0 {
-		return []*Task{}, errors.New("no tasks found for this user")
+		return []*Task{}, err.ErrNotFound("no tasks found for this user")
 	}
 	return ts, nil
 }
@@ -75,7 +74,7 @@ func (r *taskRepositoryMemSlice) UpdateTask(t *Task) error {
 			return nil
 		}
 	}
-	return errors.New("task not found")
+	return err.ErrNotFound("Task not found")
 }
 
 func (r *taskRepositoryMemSlice) DeleteTask(id string) error {
@@ -85,5 +84,5 @@ func (r *taskRepositoryMemSlice) DeleteTask(id string) error {
 			return nil
 		}
 	}
-	return errors.New("task not found")
+	return err.ErrNotFound("Task not found")
 }
