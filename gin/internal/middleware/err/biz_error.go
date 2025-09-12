@@ -14,7 +14,11 @@ type bizError struct {
 	bizCode  int
 }
 
-func New(m string, httpcode int, bizcode int) *bizError {
+func New(m string, httpcode int, bizcode int) BizError {
+	if httpcode == 0 {
+		httpcode = 200
+	}
+
 	return &bizError{
 		msg:      m,
 		httpCode: httpcode,
@@ -29,7 +33,7 @@ func (r *bizError) StatusCode() int { return r.httpCode }
 func (r *bizError) BizCode() int { return r.bizCode }
 
 // 自定义标准错误
-func ErrBadRequest(msg string) *bizError  { return New(msg, 400, 10400) }
-func ErrForbidden(msg string) *bizError   { return New(msg, 403, 10403) }
-func ErrNotFound(msg string) *bizError    { return New(msg, 404, 10404) }
-func ErrServerError(msg string) *bizError { return New(msg, 500, 10500) }
+func ErrBadRequest(msg string) BizError  { return New(msg, 400, 10400) }
+func ErrForbidden(msg string) BizError   { return New(msg, 403, 10403) }
+func ErrNotFound(msg string) BizError    { return New(msg, 404, 10404) }
+func ErrServerError(msg string) BizError { return New(msg, 500, 10500) }
