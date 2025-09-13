@@ -118,3 +118,30 @@ func TestIsPrime(t *testing.T) {
 	fmt.Printf("%v的判断结果是：%v , 它的因数是：%v\n", n, r, f)
 	//
 }
+
+// 测试一下函数返回的是接口类型的时候，还能不能用类型断言转换成具体类型
+type IA interface {
+	F() int
+}
+type type1 struct{}
+type type2 struct{}
+
+var _ IA = (*type1)(nil)
+var _ IA = (*type2)(nil)
+
+func (*type1) F() int {
+	return 3
+}
+func (*type2) F() int {
+	return 5
+}
+func newt1() IA {
+	return &type1{}
+}
+
+func TestInterfaceAndTypeAssertion(t *testing.T) {
+	// 测试一下函数返回的是接口类型的时候，还能不能用类型断言转换成具体类型
+	a := newt1()
+	a, ok := a.(*type2)
+	fmt.Printf("对a的断言结果：%v \n", ok)
+}
