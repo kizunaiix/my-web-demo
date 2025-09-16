@@ -17,7 +17,7 @@ type TaskRepository interface {
 
 var (
 	_ TaskRepository = (*taskRepositoryMemSlice)(nil)
-	// _ taskRepositoryPgsql = (*taskRepositoryMemSlice)(nil)
+	_ TaskRepository = (*taskRepositoryPgsql)(nil)
 )
 
 // TODO Pgsql的Repository实现
@@ -25,12 +25,40 @@ type taskRepositoryPgsql struct {
 	db *gorm.DB
 }
 
+func NewTaskRepositoryPgsql(db *gorm.DB) TaskRepository {
+	return &taskRepositoryPgsql{db: db}
+}
+
+func (r *taskRepositoryPgsql) GetAllTasks() []*Task {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *taskRepositoryPgsql) GetTaskById(id string) (*Task, error) {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *taskRepositoryPgsql) GetTasksByUser(userid int) ([]*Task, error) {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *taskRepositoryPgsql) CreateTask(t *Task) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *taskRepositoryPgsql) UpdateTask(t *Task) error {
+	panic("not implemented") // TODO: Implement
+}
+
+func (r *taskRepositoryPgsql) DeleteTask(id string) error {
+	panic("not implemented") // TODO: Implement
+}
+
 // 用来代替数据库，暂时先用变量实现task的储存
 type taskRepositoryMemSlice struct {
 	tasks []*Task
 }
 
-func NewTaskRepositoryMemSlice() *taskRepositoryMemSlice {
+func NewTaskRepositoryMemSlice() TaskRepository {
 	return &taskRepositoryMemSlice{
 		tasks: make([]*Task, 0),
 	}
