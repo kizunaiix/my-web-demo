@@ -39,14 +39,15 @@ func NewLogger(env string) (l *zap.Logger, err error) {
 
 }
 
-func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc {
+func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用With()来加上trace_id
 	return func(c *gin.Context) {
+
+		c.Set("logger", l) // 将logger存入context，方便后续调用
 
 		//开始计时
 		start := time.Now()
-		c.Set("logger", l) // 将logger存入context，方便后续调用
 
-		c.Next() // 调用下一个处理器
+		c.Next()
 
 		//结束计时
 		duration := time.Since(start)
