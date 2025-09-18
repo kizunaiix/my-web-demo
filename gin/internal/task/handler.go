@@ -37,7 +37,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 
 	b := &reqBody{}
 
-	err := ctx.BindJSON(b)
+	err := ctx.BindJSON(b) // TODO Bind有可能永远成功，需要验证
 	if err != nil {
 		logger.Error("BindJSON failed", zap.Error(err))
 		ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: err.Error()})
