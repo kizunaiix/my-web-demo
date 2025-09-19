@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"ki9.com/gin_demo/internal/dto"
+	"ki9.com/gin_demo/internal/middleware/myerr"
 )
 
 type TaskHandler struct {
@@ -37,10 +38,10 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 
 	b := &reqBody{}
 
-	err := ctx.BindJSON(b) // TODO Bind有可能永远成功，需要验证
+	// err := ctx.BindJSON(b)  //--> 这里不用should系列的话，会直接自动abort，无法用我的自定义err信息包装
+	err := ctx.ShouldBindJSON(b)
 	if err != nil {
-		logger.Error("BindJSON failed", zap.Error(err))
-		ctx.JSON(http.StatusBadRequest, dto.UniResponseBody{Code: 400, Msg: err.Error()})
+		ctx.Error(fmt.Errorf("request body should be JSON: %w", myerr.ErrBadRequest(err.Error())))
 		return
 	}
 

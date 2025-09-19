@@ -1,4 +1,4 @@
-package err
+package myerr
 
 type BizError interface {
 	error

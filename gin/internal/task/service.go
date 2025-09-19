@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"ki9.com/gin_demo/internal/middleware/err"
+	"ki9.com/gin_demo/internal/middleware/myerr"
 )
 
 type TaskService interface {
@@ -35,13 +35,13 @@ func (svc *taskService) CreateTask(t *Task) error {
 	if t.Id == "" {
 		t.Id = uuid.New().String()
 	} else {
-		return err.ErrServerError("failed to create task: task id should be empty for new task")
+		return myerr.ErrServerError("failed to create task: task id should be empty for new task")
 	}
 
 	//同用户创建的同内容的第二个Task无效
 	for _, v := range svc.repo.GetAllTasks() {
 		if v.Creater.Uid == t.Creater.Uid && v.Description == t.Description {
-			return err.ErrServerError("failed to create task: task already exists for this user with the same description")
+			return myerr.ErrServerError("failed to create task: task already exists for this user with the same description")
 		}
 	}
 
