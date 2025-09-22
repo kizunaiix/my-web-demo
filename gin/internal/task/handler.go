@@ -41,7 +41,8 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 	// err := ctx.BindJSON(b)  //--> 这里不用should系列的话，会直接自动abort，无法用我的自定义err信息包装
 	err := ctx.ShouldBindJSON(b)
 	if err != nil {
-		ctx.Error(fmt.Errorf("request body should be JSON: %w", myerr.ErrBadRequest(err.Error())))
+		logger.Debug("BindJSON failed", zap.Error(err))
+		ctx.Error(myerr.ErrBadRequest("body should be json format"))
 		return
 	}
 
@@ -53,7 +54,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) {
 			ctx.Error(err)
 			return
 		}
-
+		// -----------------------看到这里
 		ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 200, Msg: "success", Data: b.Task}) // TODO这里不能直接返task，因为task有可能是不合格的，需要由函数返
 		logger.Info(fmt.Sprintf("created Task: %v", b.Task))
 
