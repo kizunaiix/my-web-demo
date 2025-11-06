@@ -33,7 +33,7 @@ func NewTaskHandler(svc TaskService) *TaskHandler {
 // @Success 200 {object} dto.UniResponseBody "操作结果"
 // @Failure 400 {object} dto.UniResponseBody
 // @Failure 404 {object} dto.UniResponseBody
-func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb的api
+func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb的api。
 	logger := ctx.MustGet("logger").(*zap.Logger)
 
 	b := &reqBody{}
