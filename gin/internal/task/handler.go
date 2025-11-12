@@ -37,12 +37,10 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb
 	logger := ctx.MustGet("logger").(*zap.Logger)
 
 	b := &reqBody{}
-
 	// err := ctx.BindJSON(b)  //--> 这里不用should系列的话，会直接自动abort，无法用我的自定义err信息包装
-	err := ctx.ShouldBindJSON(b)
-	if err != nil {
+	if err := ctx.ShouldBindJSON(b); err != nil {
 		logger.Debug("BindJSON failed", zap.Error(err))
-		ctx.Error(myerr.ErrBadRequest("body should be json format"))
+		ctx.Error(myerr.ErrBadRequest("body should be JSON format"))
 		return
 	}
 
@@ -74,7 +72,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb
 
 	case "update":
 
-		if err = h.svc.UpdateTask(&b.Task); err != nil {
+		if err := h.svc.UpdateTask(&b.Task); err != nil {
 			logger.Error("UpdateTask failed", zap.Error(err)) //TODO 删掉，以及往下的部分都还没修改
 			ctx.JSON(http.StatusOK, dto.UniResponseBody{Code: 404, Msg: "no update: task not found"})
 			return
