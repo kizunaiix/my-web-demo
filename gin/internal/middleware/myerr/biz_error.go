@@ -15,9 +15,6 @@ type bizError struct {
 }
 
 func New(m string, httpcode int, bizcode int) BizError {
-	if httpcode == 0 {
-		httpcode = 200
-	}
 
 	return &bizError{
 		msg:      m,
