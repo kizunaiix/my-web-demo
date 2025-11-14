@@ -46,7 +46,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb
 
 	//仅接受特定的mathod：CRUD，否则400
 	switch b.Method {
-	case "create": //TODO 从这里开始整改error处理。
+	case "create": //TODO 从这里开始整改error处理。.
 
 		if err := h.svc.CreateTask(&b.Task); err != nil {
 			ctx.Error(err)
