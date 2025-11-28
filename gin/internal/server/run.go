@@ -18,7 +18,7 @@ import (
 	"ki9.com/gin_demo/pkg/logger"
 )
 
-func Run(l *zap.Logger, cfg *conf.Conf) {
+func Run(l *zap.Logger, cfg conf.Conf) {
 	// --------------------------------------------------------------------
 	// 初始化 Gin
 	r := gin.New()
