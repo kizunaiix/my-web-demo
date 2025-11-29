@@ -52,11 +52,8 @@ func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用Wit
 		//结束计时
 		duration := time.Since(start)
 
-		l2, ok := c.Get("logger")
-		if !ok {
-			l.Error("Logger not found in context")
+		l2 := c.MustGet("logger")
 
-		}
 		l2.(*zap.Logger).Info("Request Completed",
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
