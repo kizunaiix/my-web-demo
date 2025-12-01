@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -10,21 +11,21 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
-	"ki9.com/gin_demo/internal/conf"
+	"ki9.com/gin_demo/internal/config"
 	"ki9.com/gin_demo/internal/helloworld/greet"
 	"ki9.com/gin_demo/internal/helloworld/welcome"
 	"ki9.com/gin_demo/internal/middleware/myerr"
 	"ki9.com/gin_demo/internal/task"
-	"ki9.com/gin_demo/pkg/logger"
+	"ki9.com/gin_demo/pkg/logging"
 )
 
-func Run(l *zap.Logger, cfg conf.Conf) {
+func Run(l *zap.Logger, cfg config.Conf) {
 	// --------------------------------------------------------------------
 	// 初始化 Gin
 	r := gin.New()
 	r.Use(
 		gin.Recovery(),
-		logger.LoggerMiddleware(l),
+		logging.LoggerMiddleware(l),
 		myerr.ErrorHandlerMiddleware,
 		cors.New(cors.Config{
 			AllowOrigins: []string{"http://localhost:80", "http://localhost:3000"},
@@ -61,6 +62,20 @@ func Run(l *zap.Logger, cfg conf.Conf) {
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
 	)
+
+	fmt.Println(`
+                                                         /$$                     /$$                                  
+                                                        | $$                    | $$                                  
+ /$$$$$$/$$$$  /$$   /$$         /$$  /$$  /$$  /$$$$$$ | $$$$$$$           /$$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$ 
+| $$_  $$_  $$| $$  | $$ /$$$$$$| $$ | $$ | $$ /$$__  $$| $$__  $$ /$$$$$$ /$$__  $$ /$$__  $$| $$_  $$_  $$ /$$__  $$
+| $$ \ $$ \ $$| $$  | $$|______/| $$ | $$ | $$| $$$$$$$$| $$  \ $$|______/| $$  | $$| $$$$$$$$| $$ \ $$ \ $$| $$  \ $$
+| $$ | $$ | $$| $$  | $$        | $$ | $$ | $$| $$_____/| $$  | $$        | $$  | $$| $$_____/| $$ | $$ | $$| $$  | $$
+| $$ | $$ | $$|  $$$$$$$        |  $$$$$/$$$$/|  $$$$$$$| $$$$$$$/        |  $$$$$$$|  $$$$$$$| $$ | $$ | $$|  $$$$$$/
+|__/ |__/ |__/ \____  $$         \_____/\___/  \_______/|_______/          \_______/ \_______/|__/ |__/ |__/ \______/ 
+               /$$  | $$                                                                                              
+              |  $$$$$$/                                                                                              
+               \______/                                                                                                                                                                          
+	`)
 
 	r.Run("0.0.0.0:9000")
 }

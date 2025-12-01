@@ -1,17 +1,16 @@
-package logger
+package logging
 
 import (
 	"errors"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 func NewLogger(env string) (l *zap.Logger, err error) {
-
-	// env := os.Getenv("ENV")
 
 	switch env {
 
@@ -42,7 +41,14 @@ func NewLogger(env string) (l *zap.Logger, err error) {
 func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用With()来加上trace_id
 	return func(c *gin.Context) {
 
-		c.Set("logger", l) // 将logger存入context，方便后续调用
+		//从header拿traceid
+		traceID := c.GetHeader("X-Trace-ID")
+		if traceID == "" {
+			traceID = uuid.New().String()
+		}
+		LoggerWithTraceID := l.With(zap.String("trace_id", traceID))
+
+		c.Set("logger", LoggerWithTraceID) // 将logger存入context，方便后续调用
 
 		//开始计时
 		start := time.Now()
@@ -61,7 +67,8 @@ func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用Wit
 			zap.String("query", c.Request.URL.RawQuery),
 			zap.String("client_ip", c.ClientIP()),
 			zap.Duration("duration", duration),
-			zap.Int("size", c.Writer.Size()),
+			zap.Int("body_size", c.Writer.Size()),
+			// zap.String("trace_id", traceID),
 		)
 
 	}
