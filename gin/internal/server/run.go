@@ -23,6 +23,9 @@ func Run(l *zap.Logger, cfg config.Conf) {
 	// --------------------------------------------------------------------
 	// 初始化 Gin
 	r := gin.New()
+
+	r.SetTrustedProxies([]string{"127.0.0.1/32", "192.168.0.0/16"})
+
 	r.Use(
 		gin.Recovery(),
 		logging.LoggerMiddleware(l),
