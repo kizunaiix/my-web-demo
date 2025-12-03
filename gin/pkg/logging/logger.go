@@ -25,13 +25,13 @@ func NewLogger(env string) (l *zap.Logger, err error) {
 		l, err = logCfg.Build()
 
 	default:
-		return nil, errors.New("unknown env, use dev or prod")
+		return nil, errors.New("undefined env")
 	}
 
 	if err != nil {
-		l.Error("Logger initializing failed", zap.String("env", env))
+		l.Error("Failed to init logger", zap.String("env", env))
 	} else {
-		l.Info("Logger initializing successed", zap.String("env", env))
+		l.Info("Logger initialized", zap.String("env", env))
 	}
 
 	return

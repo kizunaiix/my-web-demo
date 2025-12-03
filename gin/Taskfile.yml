@@ -2,41 +2,71 @@ version: '3'
 
 tasks:
 
-  gorun-dev:
+  swag:init:
+    desc: "Initialize Swagger documentation"
+    cmds:
+      - cd cmd && swag init -d ./,../internal/
+
+  go:run-dev:
     desc: "Init Swagger and run the Go app"
     env:
       ENV: dev
+    deps:
+      - swag:init
     cmds:
-      - cd cmd && swag init -d ./,../internal/
       - cd cmd && go run .
 
-  gorun-prod:
+  go:run-prod:
     desc: "Init Swagger and run the Go app"
     env:
       ENV: prod
       GIN_MODE: release
+    deps:
+      - swag:init
     cmds:
-      - cd cmd && swag init -d ./,../internal/
       - cd cmd && go run .
 
-  gobuild:
+  go:build:
     desc: "Init Swagger and build the Go binary"
+    deps:
+      - swag:init
     cmds:
-      - cd cmd && swag init -d ./,../internal/
-      - cd cmd && go build -o ../bin/gin-app-be .
+      - cd cmd && go build -o ../bin/my-web-demo .
 
-  dockerbuild:
+  docker:build:
     desc: "Build Docker image"
     cmds:
-      - docker build -t kizunaiix/my-web-demo-backend:latest .
+      - docker build -t kizunaiix/my-web-demo:latest .
 
-  dockerrun-dev:
+  test:task-var:
+    desc: "echo task varaible"
+    vars:
+      NAME: "world"
+    cmds:
+      - echo "Hello, {{.NAME}}!" # TOTO 这里变量覆盖不成功，明天再看
+      
+
+  docker:run-dev:
     desc: "Run Docker container with ENV=dev"
     cmds:
-      - docker run -itd --name my-web-demo-backend -e ENV=dev -p 9000:9000 kizunaiix/my-web-demo-backend:latest
+      - docker run -itd \
+        --name my-web-demo-dev \
+        -e ENV=dev \
+        -p 9000:9000 \
+        kizunaiix/my-web-demo:latest
 
-  # 可选：清理 Docker 容器
-  docker-clean:
-    desc: "Remove Docker container"
+  docker:run-prod:
+    desc: "Run Docker container with ENV=prod"
     cmds:
-      - docker rm -f my-web-demo-backend || true
+      - docker run -itd \
+        --name prod-my-web-demo-prod \
+        -e ENV=prod \
+        -e GIN_MODE=release \
+        -p 9000:9000 \
+        kizunaiix/my-web-demo:latest
+
+  # # 可选：清理 Docker 容器
+  # docker:clean:
+  #   desc: "Remove Docker container"
+  #   cmds:
+  #     - docker rm -f my-web-demo-backend || true
