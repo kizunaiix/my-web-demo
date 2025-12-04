@@ -38,14 +38,6 @@ tasks:
     cmds:
       - docker build -t kizunaiix/my-web-demo:latest .
 
-  test:task-var:
-    desc: "echo task varaible"
-    vars:
-      NAME: "world"
-    cmds:
-      - echo "Hello, {{.NAME}}!" # TOTO 这里变量覆盖不成功，明天再看
-      
-
   docker:run-dev:
     desc: "Run Docker container with ENV=dev"
     cmds:
