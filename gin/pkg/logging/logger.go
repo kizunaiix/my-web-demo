@@ -38,7 +38,7 @@ func NewLogger(env string) (l *zap.Logger, err error) {
 
 }
 
-func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用With()来加上trace_id
+func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用With()来加上trace_id.
 	return func(c *gin.Context) {
 
 		//从header拿traceid
