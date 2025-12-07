@@ -68,7 +68,6 @@ func LoggerMiddleware(l *zap.Logger) gin.HandlerFunc { //TODO 以后可以用Wit
 			zap.String("client_ip", c.ClientIP()),
 			zap.Duration("duration", duration),
 			zap.Int("body_size", c.Writer.Size()),
-			// zap.String("trace_id", traceID),
 		)
 
 	}
