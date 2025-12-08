@@ -9,3 +9,7 @@
     数据库：PostgreSQL
     API 设计：偏向 RPC 风格，只使用 GET 和 POST 方法，不使用 PUT 和 DELETE
     Swagger 文档：你在为 API 添加 Swagger 注释，并尝试让 swag init 生成文档
+
+## gin
+
+[README](./gin/Gin-README.md)
