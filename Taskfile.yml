@@ -5,7 +5,7 @@ tasks:
   swag:init:
     desc: "Initialize Swagger documentation"
     cmds:
-      - cd cmd && swag init -d ./,../internal/
+      - cd gin/cmd && swag init -d ./,../internal/
 
   go:run-dev:
     desc: "Init Swagger and run the Go app"
@@ -14,7 +14,7 @@ tasks:
     deps:
       - swag:init
     cmds:
-      - cd cmd && go run .
+      - cd gin/cmd && go run .
 
   go:run-prod:
     desc: "Init Swagger and run the Go app"
@@ -24,19 +24,30 @@ tasks:
     deps:
       - swag:init
     cmds:
-      - cd cmd && go run .
+      - cd gin/cmd && go run .
 
   go:build:
     desc: "Init Swagger and build the Go binary"
     deps:
       - swag:init
     cmds:
-      - cd cmd && go build -o ../bin/my-web-demo .
+      - cd gin/cmd && go build -o ../bin/my-web-demo .
+
+  npm:build:
+    desc: "Build React frontend"
+    cmds:
+      - cd react && npm install
+      - cd react && npm run build -- --emptyOutDir
 
   docker:build:
     desc: "Build Docker image"
+    env:
+      VERSION: none # 可根据需要覆盖版本号
+    deps:
+      - npm:build
+      - go:build
     cmds:
-      - docker build -t kizunaiix/my-web-demo:latest .
+      - cd gin && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
 
   docker:run-dev:
     desc: "Run Docker container with ENV=dev"
