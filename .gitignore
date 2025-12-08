@@ -1,1 +1,50 @@
-*/node_modules
+.vscode/
+
+
+### go
+# Binaries for programs and plugins
+out
+bin
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+
+
+### next
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules/
+.next/
+
+# testing
+# /reactapp/coverage
+
+# production
+# /reactapp/build
+
+# misc
+reactapp/.DS_Store
+reactapp/.env.local
+reactapp/.env.development.local
+reactapp/.env.test.local
+reactapp/.env.production.local
+
+reactapp/npm-debug.log*
+reactapp/yarn-debug.log*
+reactapp/yarn-error.log*
