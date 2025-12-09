@@ -26,6 +26,9 @@ tasks:
     cmds:
       - cd gin/cmd && go run .
 
+  go:test: # TODO 增加go test
+    desc: "Run Go tests"
+
   go:build:
     desc: "Init Swagger and build the Go binary"
     deps:
