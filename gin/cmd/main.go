@@ -22,7 +22,7 @@ func main() {
 	// 初始化 logger
 	logger, err := logging.NewLogger(os.Getenv("ENV"))
 	if err != nil {
-		log.Fatal("Logger initializing failed", zap.Error(err))
+		log.Fatal("Failed to init logger: ", zap.Error(err))
 	}
 
 	defer logger.Sync() // 确保日志在程序结束时被写入
