@@ -2,6 +2,7 @@ package logging
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -29,10 +30,9 @@ func NewLogger(env string) (l *zap.Logger, err error) {
 	}
 
 	if err != nil {
-		l.Error("Failed to init logger", zap.String("env", env))
-	} else {
-		l.Info("Logger initialized", zap.String("env", env))
+		return nil, fmt.Errorf("failed to create logger: %w", err)
 	}
+	l.Info("Logger initialized", zap.String("env", env))
 
 	return
 

@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 
-	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
 	"ki9.com/gin_demo/internal/config"
@@ -22,7 +21,7 @@ func main() {
 	// 初始化 logger
 	logger, err := logging.NewLogger(os.Getenv("ENV"))
 	if err != nil {
-		log.Fatal("Failed to init logger: ", zap.Error(err))
+		log.Fatal("Failed to init logger: ", err)
 	}
 
 	defer logger.Sync() // 确保日志在程序结束时被写入

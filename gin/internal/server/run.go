@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 
@@ -52,12 +51,17 @@ func Run(l *zap.Logger, cfg config.Conf) {
 
 	// --------------------------------------------------------------------
 	// 注册路由
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, &struct{ SwaggerDocs string }{SwaggerDocs: "http://localhost:9000/"})
+	// 所有不存在的路由返回前端index.html
+	r.Static("/my-web-demo/", "../../public/")
+	r.NoRoute(func(ctx *gin.Context) {
+		ctx.File("../public/index.html")
 	})
-	r.GET("/api/welcome", welcome.Welcome)
-	r.POST("/api/posttest", greet.Greet)
-	r.POST("/api/handle-task", th.TaskHandlerFunc)
+
+	api := r.Group("/my-web-demo/api")
+
+	api.GET("welcome", welcome.Welcome)
+	api.POST("posttest", greet.Greet)
+	api.POST("handle-task", th.TaskHandlerFunc)
 
 	// --------------------------------------------------------------------
 	// 启动服务
