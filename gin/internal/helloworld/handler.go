@@ -1,4 +1,4 @@
-package welcome
+package helloworld
 
 import (
 	"net/http"

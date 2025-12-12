@@ -55,54 +55,6 @@
                 }
             }
         },
-        "/posttest": {
-            "post": {
-                "description": "post to it, when body is {\"content\": \"hello api\"}, you get 200 with answer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Hello-world-test"
-                ],
-                "summary": "try a JSON-data to this api",
-                "parameters": [
-                    {
-                        "description": "请求体",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/greet.reqBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "成功响应",
-                        "schema": {
-                            "type": "json"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "服务不存在",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/welcome": {
             "get": {
                 "description": "this api is like a \"hello world\"",
@@ -169,14 +121,6 @@
                 "msg": {
                     "type": "string",
                     "example": "success"
-                }
-            }
-        },
-        "greet.reqBody": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
                 }
             }
         },

@@ -10,11 +10,6 @@ definitions:
         example: success
         type: string
     type: object
-  greet.reqBody:
-    properties:
-      content:
-        type: string
-    type: object
   task.Task:
     properties:
       actualDoneTime:
@@ -100,39 +95,6 @@ paths:
       summary: create, read, update, or delete a task based on method
       tags:
       - appapi
-  /posttest:
-    post:
-      consumes:
-      - application/json
-      description: 'post to it, when body is {"content": "hello api"}, you get 200
-        with answer'
-      parameters:
-      - description: 请求体
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/greet.reqBody'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 成功响应
-          schema:
-            type: json
-        "400":
-          description: 请求错误
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 服务不存在
-          schema:
-            additionalProperties: true
-            type: object
-      summary: try a JSON-data to this api
-      tags:
-      - Hello-world-test
   /welcome:
     get:
       consumes:

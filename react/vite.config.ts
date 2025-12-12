@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/my-web-demo/static/', // 设置基础路径
+  base: '/my-web-demo', // 设置基础路径
   build: {
     outDir: '../gin/public/', // 打包输出目录，默认就是 'dist'
   }

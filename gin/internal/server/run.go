@@ -10,8 +10,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 	"ki9.com/gin_demo/internal/config"
-	"ki9.com/gin_demo/internal/helloworld/greet"
-	"ki9.com/gin_demo/internal/helloworld/welcome"
+	"ki9.com/gin_demo/internal/helloworld"
 	"ki9.com/gin_demo/internal/middleware/myerr"
 	"ki9.com/gin_demo/internal/task"
 	"ki9.com/gin_demo/pkg/logging"
@@ -51,17 +50,21 @@ func Run(l *zap.Logger, cfg config.Conf) {
 	// --------------------------------------------------------------------
 	// 注册路由
 	// 所有不存在的路由返回前端index.html
-	r.Static("/my-web-demo/static", "../public/")
+	r.Static("/my-web-demo", "../public/")
 
 	r.NoRoute(func(ctx *gin.Context) {
-		ctx.File("../public/index.html")
+		if strings.HasPrefix(ctx.Request.URL.Path, "/api/") {
+			ctx.JSON(404, gin.H{"msg": "api not found"})
+
+		} else {
+			ctx.File("../public/index.html")
+		}
 	})
 
-	api := r.Group("/my-web-demo/api")
+	api := r.Group("/api/my-web-demo")
 
-	api.GET("welcome", welcome.Welcome)
-	api.POST("posttest", greet.Greet)
-	api.POST("handle-task", th.TaskHandlerFunc)
+	api.GET("/welcome", helloworld.Welcome)
+	api.POST("/handle-task", th.TaskHandlerFunc)
 
 	// --------------------------------------------------------------------
 	// 启动服务

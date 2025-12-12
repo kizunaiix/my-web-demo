@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     element: <div>Hello World</div>,
   },
   {
-    path: "/my-web-demo/static/vite",
+    path: "/my-web-demo",
     element: <Home />,
   },
   {
