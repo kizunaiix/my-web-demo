@@ -18,7 +18,7 @@ import (
 // @BasePath /api
 func main() {
 
-	// 初始化 logger
+	// 初始化logger
 	logger, err := logging.NewLogger(os.Getenv("ENV"))
 	if err != nil {
 		log.Fatal("Failed to init logger: ", err)
