@@ -3,7 +3,7 @@ import viteLogo from "/vite.svg";
 // import viteLogo from "";
 import { useState } from "react";
 
-export default function Home() {
+export function Home() {
   const [count, setCount] = useState(0);
 
   return (
