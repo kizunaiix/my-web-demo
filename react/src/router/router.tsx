@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 
 import { Home } from "../pages/Home";
 import { PageNotFound } from "../pages/PageNotFound";
+import { Playground } from "@/pages/Playground";
 
 export const router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
   {
     path: "/my-web-demo",
     element: <Home />,
+  },
+  {
+    path: "/my-web-demo/playground",
+    element: <Playground />,
   },
   {
     path: "*",
