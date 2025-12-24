@@ -4,12 +4,12 @@ import { Input } from "@/components/ui/input";
 function Playground() {
   return (
     <>
-      <main className="flex flex-col content-center bg-background h-screen">
+      <main className="flex flex-col content-center h-screen">
         <div className="flex flex-1 justify-center items-center gap-2 bg-amber-300">
 
         </div>
-        <div className="flex flex-6 justify-center items-center gap-2 bg-amber-400">
-          <Input type="text" placeholder="Search" className="w-1/3"/>
+        <div className="flex flex-6 justify-center items-center gap-12 bg-amber-400">
+          <Input type="text" placeholder="Search" className="bg-white w-1/3"/>
           <Button type="submit" variant="default">
             Go
           </Button>

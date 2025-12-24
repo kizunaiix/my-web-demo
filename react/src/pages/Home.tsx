@@ -9,13 +9,21 @@ export function Home() {
             window.alert("该跳转搜索结果");
           }}
         />
+        <div className="bg-red-300 w-12 h-64">
+          ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+        </div>
+        <div className="inline-block bg-blue-600 h-64">
+          <div className="inline bg-red-500 border w-6 h-32">12dfsfsdfdsfdsfsd</div>
+          <div className="inline bg-red-500 border w-6 h-32">2</div>
+          <div className="bg-red-500 border w-6 h-32"></div>
+        </div>
       </main>
     </>
   );
 }
 
 // SearchInput组件
-import clsx from "clsx";  // TODO clsx没法处理覆盖的问题
+import clsx from "clsx"; // TODO clsx没法处理覆盖的问题
 
 interface SearchInputProps {
   inputClassName?: string;
