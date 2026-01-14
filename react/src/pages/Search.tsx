@@ -43,7 +43,7 @@ function SearchInput({
             buttonClassName
           )}
         >
-          搜索？
+          搜索
         </button>
       </div>
     </>
