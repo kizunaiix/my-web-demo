@@ -56,7 +56,7 @@ function Playground() {
             Login
           </Button>
           <Button variant="outline" className="w-full">
-            Login with Google
+            Login with Google 
           </Button>
         </CardFooter>
       </Card>
