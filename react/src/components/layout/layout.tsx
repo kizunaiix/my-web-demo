@@ -11,7 +11,7 @@ function Layout({ withSidebar, children }: layoutProps) {
       <div className="flex flex-col min-h-dvh">
         <header>header!</header>
         <div className="flex flex-1">
-          {withSidebar && <aside className="hidden md:block w-32">sidebar</aside>}
+          {withSidebar && <aside className="hidden md:block bg-sidebar border w-32">sidebar</aside>}
           <main className="flex-1">{children}</main>
         </div>
         <footer>thefooter</footer>
