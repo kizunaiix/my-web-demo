@@ -143,5 +143,5 @@ func TestInterfaceAndTypeAssertion(t *testing.T) {
 	// 测试一下函数返回的是接口类型的时候，还能不能用类型断言转换成具体类型
 	a := newt1()
 	a, ok := a.(*type2)
-	fmt.Printf("对a的断言结果：%v \n", ok)
+	fmt.Printf("对a的断言结果: %v \n", ok)
 }
