@@ -1,5 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Navigate } from "react-router";
 
 import { Home } from "@/pages/Home";
