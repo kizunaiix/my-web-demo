@@ -1,11 +1,11 @@
 version: '3'
 
-tasks:
+tasks: # TODO 文件夹改名了需要全部重新写
 
   swag:init:
     desc: "Initialize Swagger documentation"
     cmds:
-      - cd gin/cmd && swag init -d ./,../internal/
+      - cd backend/cmd && swag init -d ./,../internal/
 
   go:run-dev:
     desc: "Init Swagger and run the Go app"
@@ -14,7 +14,7 @@ tasks:
     deps:
       - swag:init
     cmds:
-      - cd gin/cmd && go run .
+      - cd backend/cmd && go run .
 
   go:run-prod:
     desc: "Init Swagger and run the Go app"
@@ -24,7 +24,7 @@ tasks:
     deps:
       - swag:init
     cmds:
-      - cd gin/cmd && go run .
+      - cd backend/cmd && go run .
 
   go:test: # TODO 增加go test
     desc: "Run Go tests"
@@ -34,7 +34,7 @@ tasks:
     deps:
       - swag:init
     cmds:
-      - cd gin/cmd && go build -o ../bin/my-web-demo .
+      - cd backend/cmd && go build -o ../bin/my-web-demo .
 
   npm:build:
     desc: "Build React frontend"

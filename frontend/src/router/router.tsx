@@ -1,10 +1,13 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Navigate } from "react-router";
+
 import { Home } from "@/pages/Home";
 import { PageSearch } from "@/pages/Search";
 import { PageNotFound } from "@/pages/PageNotFound";
 import { Playground } from "@/pages/Playground";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/my-web-demo" />,
@@ -26,3 +29,5 @@ export const router = createBrowserRouter([
     element: <PageNotFound />,
   },
 ]);
+
+export { router };
