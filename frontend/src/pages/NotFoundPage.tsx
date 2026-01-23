@@ -1,4 +1,4 @@
-function PageNotFound() {
+function NotFoundPage() {
   return (
     <>
       <div className="flex flex-col justify-center items-center bg-blue-300 h-screen">
@@ -10,4 +10,4 @@ function PageNotFound() {
   );
 }
 
-export { PageNotFound };
+export { NotFoundPage };

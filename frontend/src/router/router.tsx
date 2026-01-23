@@ -1,9 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
-import { Home } from "@/pages/Home";
-import { PageSearch } from "@/pages/Search";
-import { PageNotFound } from "@/pages/PageNotFound";
-import { Playground } from "@/pages/Playground";
+import { HomePage } from "@/pages/HomePage";
+import { SearchPage } from "@/pages/SearchPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
+import { PlaygroundPage } from "@/pages/PlaygroundPage";
 
 const router = createBrowserRouter([
   {
@@ -12,19 +12,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/my-web-demo",
-    element: <Home />,
+    element: <HomePage />,
   },
   {
     path: "/my-web-demo/search",
-    element: <PageSearch />,
+    element: <SearchPage />,
   },
   {
     path: "/my-web-demo/playground",
-    element: <Playground />,
+    element: <PlaygroundPage />,
   },
   {
     path: "*",
-    element: <PageNotFound />,
+    element: <NotFoundPage />,
   },
 ]);
 

@@ -1,4 +1,4 @@
-import { Layout } from "@/layout/layout";
+import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
-function Playground() {
+function PlaygroundPage() {
   return (
     <>
       <Layout withSidebar={true}>
@@ -67,4 +67,4 @@ function Playground() {
   );
 }
 
-export { Playground };
+export { PlaygroundPage };
