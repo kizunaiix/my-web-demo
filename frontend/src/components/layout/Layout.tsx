@@ -15,7 +15,7 @@ function Layout({ withSidebar, children }: LayoutProps) {
   return (
     <>
       <div className="flex flex-col min-h-dvh">
-        <header>header!</header>
+        <Header isDark={isDark} setIsDark={setIsDark} />
         {/*  TODO 把isDark传给header用于暗黑模式切换按钮 */}
         <div className="flex flex-1">
           {withSidebar && (
@@ -32,3 +32,27 @@ function Layout({ withSidebar, children }: LayoutProps) {
 }
 
 export { Layout };
+
+// ---
+import { SwitchWithIcon } from "@/components/ui/switch-with-icon";
+interface HeaderProps {
+  isDark: boolean;
+  setIsDark: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function Header({ isDark, setIsDark }: HeaderProps) {
+  return (
+    <>
+      <div className="flex items-center gap-2 p-4">
+        <SwitchWithIcon
+          checked={isDark}
+          onCheckedChange={setIsDark}
+          defaultIcons="dark-mode"
+          className="cursor-pointer"
+        />
+        <span className="text-muted-foreground text-sm">
+          {isDark ? 'Dark' : 'Light'}
+        </span>
+      </div>
+    </>
+  );
+}

@@ -1,9 +1,11 @@
+import { Layout } from "@/components/layout/Layout";
+
 function HomePage() {
   return (
     <>
-      <main>
+      <Layout withSidebar={true}>
         <p>to do</p>
-      </main>
+      </Layout>
     </>
   );
 }

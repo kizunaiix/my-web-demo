@@ -1,6 +1,11 @@
-version: '3'
+version: "3"
 
 tasks: # TODO 文件夹改名了需要全部重新写
+  npm:build:
+    desc: "Build React frontend"
+    cmds:
+      - cd frontend && npm install
+      - cd frontend && npm run build
 
   swag:init:
     desc: "Initialize Swagger documentation"
@@ -35,12 +40,6 @@ tasks: # TODO 文件夹改名了需要全部重新写
       - swag:init
     cmds:
       - cd backend/cmd && go build -o ../bin/my-web-demo .
-
-  npm:build:
-    desc: "Build React frontend"
-    cmds:
-      - cd react && npm install
-      - cd react && npm run build -- --emptyOutDir
 
   docker:build:
     desc: "Build Docker image"
