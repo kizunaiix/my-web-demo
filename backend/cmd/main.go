@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"gopkg.in/yaml.v3"
-	_ "ki9.com/gin_demo/cmd/docs" // swagger:这里要用你的实际 `docs` 路径
+	_ "ki9.com/gin_demo/docs" // swagger:这里要用你的实际 `docs` 路径
 	"ki9.com/gin_demo/internal/config"
 	"ki9.com/gin_demo/internal/server"
 	"ki9.com/gin_demo/pkg/logging"

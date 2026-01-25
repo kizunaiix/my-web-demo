@@ -9,6 +9,12 @@ public/
 *.so
 *.dylib
 
+# swagger
+docs/
+
+# container
+work/
+
 # Test binary, built with `go test -c`
 *.test
 

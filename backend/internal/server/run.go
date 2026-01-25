@@ -50,7 +50,7 @@ func Run(l *zap.Logger, cfg config.Conf) {
 	// --------------------------------------------------------------------
 	// 注册路由
 	// 所有不存在的路由返回前端index.html
-	r.Static("/my-web-demo", "../public/")
+	r.Static("/my-web-demo", "./public/")
 
 	r.NoRoute(func(ctx *gin.Context) {
 		if strings.HasPrefix(ctx.Request.URL.Path, "/api/") {

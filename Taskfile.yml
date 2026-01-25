@@ -10,7 +10,7 @@ tasks: # TODO 文件夹改名了需要全部重新写
   swag:init:
     desc: "Initialize Swagger documentation"
     cmds:
-      - cd backend/cmd && swag init -d ./,../internal/
+      - cd backend/ && swag init -d cmd/,internal/
 
   go:run-dev:
     desc: "Init Swagger and run the Go app"
@@ -19,7 +19,7 @@ tasks: # TODO 文件夹改名了需要全部重新写
     deps:
       - swag:init
     cmds:
-      - cd backend/cmd && go run .
+      - cd backend/work/ && go run ../cmd/
 
   go:run-prod:
     desc: "Init Swagger and run the Go app"
@@ -29,15 +29,20 @@ tasks: # TODO 文件夹改名了需要全部重新写
     deps:
       - swag:init
     cmds:
-      - cd backend/cmd && go run .
+      - cd backend/work/ && go run ../cmd/
 
-  go:test: # TODO 增加go test
+  go:test:
     desc: "Run Go tests"
+    deps:
+      - swag:init
+    cmds:
+      - cd backend/ && go test ./...
 
   go:build:
     desc: "Init Swagger and build the Go binary"
     deps:
       - swag:init
+      - go:test
     cmds:
       - cd backend/cmd && go build -o ../bin/my-web-demo .
 
@@ -47,9 +52,10 @@ tasks: # TODO 文件夹改名了需要全部重新写
       VERSION: none # 可根据需要覆盖版本号
     deps:
       - npm:build
+      - go:test
       - go:build
     cmds:
-      - cd gin && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
+      - cd backend/ && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
 
   docker:run-dev:
     desc: "Run Docker container with ENV=dev"
