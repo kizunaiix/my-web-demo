@@ -58,7 +58,7 @@ func (h *TaskHandler) TaskHandlerFunc(ctx *gin.Context) { // TODO 改成xxx.verb
 
 	case "read":
 
-		searchResults, err := h.svc.GetTasksByUser(b.Task.Creater.Uid)
+		searchResults, err := h.svc.GetTasksByUser(b.Task.Creator.Uid)
 		if err != nil {
 			ctx.Error(err)
 			// logger.Logger.Error("GetTasksByUser failed", zap.Error(err)) //TODO 这里直接把error给ctx由中间件统一打印.

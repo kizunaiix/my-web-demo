@@ -12,7 +12,7 @@ type Task struct { // TODO 按需加上omitempty
 	UpdateTime     time.Time `json:"updateTime" example:"2023-01-02T20:23:21+01:00"`
 	PlanToDoneTime time.Time `json:"planToDoneTime" example:"2025-03-15T14:58:45+08:00"`
 	ActualDoneTime time.Time `json:"actualDoneTime" example:"2025-05-01T09:31:27+01:00"`
-	Creater        user.User `json:"creater"`
+	Creator        user.User `json:"creator"`
 	Description    string    `json:"description" example:"Rule the world"`
 	Status         string    `json:"status" example:"pending"`
 }

@@ -40,7 +40,7 @@ func (svc *taskService) CreateTask(t *Task) error {
 
 	//同用户创建的同内容的第二个Task无效
 	for _, v := range svc.repo.GetAllTasks() {
-		if v.Creater.Uid == t.Creater.Uid && v.Description == t.Description {
+		if v.Creator.Uid == t.Creator.Uid && v.Description == t.Description {
 			return myerr.ErrServerError("failed to create task: task already exists for this user with the same description")
 		}
 	}

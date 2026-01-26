@@ -79,7 +79,7 @@ func (r *taskRepositoryMemSlice) GetTaskById(id string) (*Task, error) {
 
 func (r *taskRepositoryMemSlice) GetTasksByUser(userid int) (ts []*Task, e error) {
 	for _, t := range r.tasks {
-		if userid == t.Creater.Uid {
+		if userid == t.Creator.Uid {
 			ts = append(ts, t)
 		}
 	}
