@@ -41,7 +41,6 @@ tasks: # TODO 文件夹改名了需要全部重新写
   go:build:
     desc: "Init Swagger and build the Go binary"
     deps:
-      - swag:init
       - go:test
     cmds:
       - cd backend/cmd && go build -o ../bin/my-web-demo .
@@ -49,13 +48,13 @@ tasks: # TODO 文件夹改名了需要全部重新写
   docker:build:
     desc: "Build Docker image"
     env:
-      VERSION: none # 可根据需要覆盖版本号
+      VERSION: null # 可根据需要覆盖版本号
     deps:
       - npm:build
-      - go:test
       - go:build
     cmds:
-      - cd backend/ && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
+      # - cd backend/ && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
+      - echo debug-v${VERSION}
 
   docker:run-dev:
     desc: "Run Docker container with ENV=dev"

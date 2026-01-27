@@ -145,3 +145,8 @@ func TestInterfaceAndTypeAssertion(t *testing.T) {
 	a, ok := a.(*type2)
 	fmt.Printf("对a的断言结果: %v \n", ok)
 }
+
+// func TestFailedTest(t *testing.T) {
+// 	a := 3
+// 	assert.Equal(t, 5, a, "a应该等于5")
+// }
