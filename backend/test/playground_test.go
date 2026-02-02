@@ -38,7 +38,17 @@ func TestUuid(t *testing.T) {
 	a := uuid.New()
 	fmt.Println(a.String())
 	fmt.Println(a.URN())
-	// fmt.Println(a, a.Version())
+	fmt.Println("version: ", a.Version())
+
+	fmt.Println("-----------生成v7：")
+	b, err := uuid.NewV7()
+	if err != nil {
+		fmt.Println("生成v7失败：", err)
+		return
+	}
+	fmt.Println(b.String())
+	fmt.Println(b.URN())
+	fmt.Println("version: ", b.Version())
 }
 
 func TestRangeCreatingVar(t *testing.T) {
