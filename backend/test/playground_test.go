@@ -160,3 +160,15 @@ func TestInterfaceAndTypeAssertion(t *testing.T) {
 // 	a := 3
 // 	assert.Equal(t, 5, a, "a应该等于5")
 // }
+
+func TestBlockingByChan(t *testing.T) {
+	c := make(chan interface{})
+	go func(c chan interface{}) {
+		time.Sleep(2 * time.Second)
+		c <- struct{}{}
+	}(c)
+
+	fmt.Println("等待chan传值...")
+	<-c
+	fmt.Println("收到chan传值，继续执行")
+}
