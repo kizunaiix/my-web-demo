@@ -17,8 +17,7 @@ import (
 )
 
 func Run(l *zap.Logger, cfg config.Conf) {
-	// --------------------------------------------------------------------
-	// 初始化 Gin
+	//// 初始化 Gin
 	r := gin.New()
 
 	r.SetTrustedProxies([]string{"127.0.0.1/32", "192.168.0.0/16"})
@@ -34,21 +33,18 @@ func Run(l *zap.Logger, cfg config.Conf) {
 		}),
 	)
 
-	// --------------------------------------------------------------------
-	// 初始化task模块依赖
+	//// 初始化task模块依赖
 	memrepo := task.NewTaskRepositoryMemSlice()
 	svc := task.NewTaskService(memrepo)
 	th := task.NewTaskHandler(svc)
 
-	// --------------------------------------------------------------------
-	// 注册 Swagger
+	//// 注册 Swagger
 	// 如果ENV这个环境变量里不包括prod的话就加上swagger doc
 	if !strings.Contains(os.Getenv("ENV"), "prod") {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	// --------------------------------------------------------------------
-	// 注册路由
+	//// 注册路由
 	// 所有不存在的路由返回前端index.html
 	r.Static("/my-web-demo", "./public/")
 
@@ -66,8 +62,7 @@ func Run(l *zap.Logger, cfg config.Conf) {
 	api.GET("/welcome", helloworld.Welcome)
 	api.POST("/handle-task", th.TaskHandlerFunc)
 
-	// --------------------------------------------------------------------
-	// 启动服务
+	//// 启动服务
 	l.Info("Gin server starting...",
 		zap.String("port", "9000"),
 		zap.String("env", os.Getenv("ENV")),
