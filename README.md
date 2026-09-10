@@ -1,6 +1,6 @@
 # my-web-demo
 
-学习web技术，前端是next.js ，后端是gin
+学习web技术，前端是vite+React.js ，后端是gin
 
 目标是写一个习惯养成/打卡应用，技术栈包括：
 
