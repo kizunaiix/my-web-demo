@@ -4,8 +4,10 @@ tasks: # TODO 文件夹改名了需要全部重新写
   npm:build:
     desc: "Build React frontend"
     cmds:
-      - cd frontend && npm install
-      - cd frontend && npm run build
+      - cd frontend && bun install --frozen-lockfile
+      - cd frontend && bun run build
+      - rm -rf backend/public
+      - cp -r frontend/build/client backend/public
 
   swag:init:
     desc: "Initialize Swagger documentation"
