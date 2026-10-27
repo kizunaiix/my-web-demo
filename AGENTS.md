@@ -53,12 +53,12 @@ task docker:run-prod    # Run container in production mode
 ### Frontend (React/TypeScript)
 
 #### Imports
-- Use absolute imports with `@/` alias for src directory
+- Use absolute imports with the `~/` alias for the `app` directory
 - Group imports: React libraries first, then local components, then UI components
 ```typescript
 import * as React from "react"
-import { ComponentExample } from "@/components/component-example"
-import { Button } from "@/components/ui/button"
+import { ComponentExample } from "~/components/component-example"
+import { Button } from "~/components/ui/button"
 import { PlusIcon } from "lucide-react"
 ```
 
@@ -80,8 +80,9 @@ import { PlusIcon } from "lucide-react"
 - Prefer explicit typing for state
 
 #### File Naming
-- Component files: `component-name.tsx`
-- Use kebab-case for file names
+- Route files: lowercase kebab-case, e.g. `home.tsx`, `about.tsx`
+- Custom component files: PascalCase matching the component name, e.g. `Layout.tsx`, `AppLayout.tsx`
+- shadcn/ui generated files: keep kebab-case, e.g. `button.tsx` (do not rename so the CLI can update them)
 - Use PascalCase for component names
 
 ### Backend (Go)

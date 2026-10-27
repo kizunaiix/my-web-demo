@@ -1,7 +1,7 @@
 version: "3"
 
-tasks: # TODO 文件夹改名了需要全部重新写
-  npm:build:
+tasks:
+  bun:build:
     desc: "Build React frontend"
     cmds:
       - cd frontend && bun install --frozen-lockfile
@@ -47,12 +47,13 @@ tasks: # TODO 文件夹改名了需要全部重新写
     cmds:
       - cd backend/cmd && go build -o ../bin/my-web-demo .
 
+  # TODO docker以后的命令有待验证
   docker:build:
     desc: "Build Docker image"
     env:
       VERSION: null # 可根据需要覆盖版本号
     deps:
-      - npm:build
+      - bun:build
       - go:build
     cmds:
       # - cd backend/ && docker build -t kizunaiix/my-web-demo:${VERSION} . # 待验证
