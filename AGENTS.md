@@ -1,192 +1,59 @@
 # AGENTS.md
 
-This file contains guidelines and commands for agentic coding agents working in this repository.
+给在本仓库工作的编码 agent 的约定。与用户交流用中文，提交信息也用中文。
 
-## Project Overview
+## 项目概览
 
-This is a habit tracking/check-in application with:
-- **Frontend**: React with TypeScript, Vite, Tailwind CSS, Base UI components
-- **Backend**: Go with Gin framework, GORM, Swagger documentation
-- **API Style**: RPC-style using only GET and POST methods (no PUT/DELETE)
-- **Database**: PostgreSQL (configured but not actively used in current state)
+习惯养成/打卡应用，单仓前后端：
+- `frontend/`：bun + React 19 + React Router 8（framework 模式，`ssr: false` 的 SPA，basename `/my-web-demo/`）+ Tailwind 4 + shadcn/ui。
+- `backend/`：Go 1.25 + Gin + zap + swaggo；GORM/PostgreSQL 仅有接口占位，当前使用内存 repository。
+- 部署：Gin 托管前端产物、nginx 反代，容器化/minikube 部分尚未验证。
 
-## Build Commands
+## 常用命令
 
-### Frontend (React/TypeScript)
-```bash
-cd frontend
-npm install              # Install dependencies
-npm run dev             # Start development server
-npm run build           # Build for production
-npm run lint            # Run ESLint
-npm run preview         # Preview production build
-```
+优先使用 Taskfile，不要另造命令：
+- `task swag:init`：生成 Swagger 文档
+- `task go:run-dev` / `task go:run-prod`：启动后端（自动依赖 swag:init）
+- `task go:test`、`task go:build`（产物在 `backend/bin/`）
+- `task bun:build`：前端构建并复制到 `backend/public/`
 
-### Backend (Go/Gin)
-```bash
-# Using Task (recommended)
-task swag:init          # Initialize Swagger documentation
-task go:run-dev         # Run in development mode
-task go:run-prod        # Run in production mode
-task go:build           # Build binary to backend/bin/
-task go:test            # Run Go tests
+前端在 `frontend/` 下：`bun install --frozen-lockfile`、`bun run dev`、`bun run build`、`bun run typecheck`、`bun run format`。禁止使用 npm/yarn。
 
-# Direct Go commands
-cd backend/cmd
-swag init -d ./,../internal/  # Generate Swagger docs
-go run .                 # Run application
-go build -o ../bin/my-web-demo .  # Build binary
-go test ./...           # Run all tests
-go test -v ./test       # Run specific test with verbose output
-go test -run TestSpecific ./test  # Run specific test function
-```
+## 目录与后端分层
 
-### Docker Commands
-```bash
-task docker:build       # Build Docker image
-task docker:run-dev     # Run container in development mode
-task docker:run-prod    # Run container in production mode
-```
+`backend/cmd/` 为入口；`backend/internal/<feature>/` 按 `handler.go`（绑定/校验/响应）、`service.go`（业务规则）、`repository.go`（存储）、`model.go`、`dto.go` 分层；错误统一用 `internal/middleware/myerr`，可复用代码放 `pkg/`，测试放 `backend/test/`。
 
-## Code Style Guidelines
+- handler 不得写业务逻辑或直接操作存储，只能调用 service。
+- 用 `ctx.ShouldBindJSON`，错误用 `ctx.Error(myerr.ErrXxx(...))` 交给中间件，不要用 `BindJSON`。
+- 响应统一 `dto.UniResponseBody`，不要手拼非标准 JSON。
+- 实现 repository 时保留接口断言 `var _ XxxRepository = (*impl)(nil)`。
 
-### Frontend (React/TypeScript)
+## API 与 Swagger
 
-#### Imports
-- Use absolute imports with the `~/` alias for the `app` directory
-- Group imports: React libraries first, then local components, then UI components
-```typescript
-import * as React from "react"
-import { ComponentExample } from "~/components/component-example"
-import { Button } from "~/components/ui/button"
-import { PlusIcon } from "lucide-react"
-```
+- RPC 风格，只用 GET/POST，路径前缀 `/api/my-web-demo`，禁止 PUT/DELETE/PATCH。
+- 每个接口写 swag 注释（`@Tags`、`@Router ... [post]`、`@Param`、`@Success`），改完执行 `task swag:init`。
+- Swagger 仅在 `ENV` 不含 prod 时挂载于 `/swagger/index.html`。
 
-#### Component Structure
-- Use function components with React hooks
-- Export components separately: `export function ComponentName() {}`
-- Add `export default ComponentName` at the end
-- Use TypeScript interfaces for props
+## 前端约定
 
-#### Styling
-- Use Tailwind CSS classes exclusively
-- Follow Base UI component patterns from shadcn/ui
-- Use `cn()` utility for conditional classes
-- Component variants use class-variance-authority
+- 路由统一在 `frontend/app/routes.ts` 注册，路由文件放 `app/routes/`，用 kebab-case。
+- shadcn 组件放 `app/components/ui/` 并保持 kebab-case 文件名，不要重命名以免 CLI 失效；业务组件用 PascalCase。
+- 用 `~/` 别名导入 `app/` 下代码；样式只用 Tailwind，条件类名用 `cn()`。
+- `react-router.config.ts` 的 `ssr: false` 与 `basename` 不要随意改动。
 
-#### State Management
-- Use `React.useState` for local state
-- Use `const [state, setState] = React.useState<Type>(initialValue)`
-- Prefer explicit typing for state
+## 禁止事项
 
-#### File Naming
-- Route files: lowercase kebab-case, e.g. `home.tsx`, `about.tsx`
-- Custom component files: PascalCase matching the component name, e.g. `Layout.tsx`, `AppLayout.tsx`
-- shadcn/ui generated files: keep kebab-case, e.g. `button.tsx` (do not rename so the CLI can update them)
-- Use PascalCase for component names
+- 不要手改生成物：`frontend/build/`、`backend/public/`、`backend/docs/`、`bun.lock`（除非确需变更依赖）。
+- 不要提交 `node_modules/`、构建产物或本地配置；不要用 `panic` 处理可恢复错误。
+- 不要改动 `frontend/old/`、`frontend/.next-deprecated/` 等遗留目录，除非明确要求。
 
-### Backend (Go)
+## 已知坑
 
-#### Package Structure
-- `cmd/` - Application entry points
-- `internal/` - Private application code
-  - `config/` - Configuration
-  - `dto/` - Data transfer objects
-  - `middleware/` - HTTP middleware
-  - `server/` - Server setup
-  - `{feature}/` - Feature-specific packages (handler, service, repository, model)
-- `pkg/` - Public library code
-- `test/` - Test files
+- 后端必须在 `backend/work/` 下运行（Taskfile 已处理），否则 `../public` 静态资源和 `NoRoute` 回落会失效。
+- 前端构建产物固定为 `frontend/build/client`，由 `task bun:build` 复制到 `backend/public/`。
+- 数据库尚未接入；新增持久化需求先补 repository 实现，不要在 handler 里直连 DB。
+- Docker/minikube/nginx 相关任务仍是 TODO，改动前先确认。
 
-#### Import Organization
-```go
-import (
-    "fmt"
-    "log"
-    "net/http"
-    
-    "github.com/gin-gonic/gin"
-    "go.uber.org/zap"
-    "ki9.com/gin_demo/internal/dto"
-    "ki9.com/gin_demo/internal/middleware/myerr"
-)
-```
+## 提交前检查
 
-#### Naming Conventions
-- Package names: lowercase, single word when possible
-- Struct names: PascalCase (e.g., `TaskHandler`)
-- Interface names: PascalCase, often with `-er` suffix
-- Function names: PascalCase for exported, camelCase for unexported
-- Variable names: camelCase
-- Constants: UPPER_SNAKE_CASE
-
-#### Error Handling
-- Use custom error types from `internal/middleware/myerr`
-- Return errors from functions, don't panic unless unrecoverable
-- Use `ctx.Error()` for Gin context errors
-- Log errors with appropriate levels using zap logger
-
-#### API Handlers
-- Use Swagger comments for all API endpoints
-- Follow pattern: `func (h *Handler) HandlerName(ctx *gin.Context)`
-- Use `ctx.ShouldBindJSON()` instead of `ctx.BindJSON()` for custom error handling
-- Return standardized responses using `dto.UniResponseBody`
-
-#### Testing
-- Test files: `feature_test.go` in `test/` package or alongside source
-- Test functions: `func TestFeature(t *testing.T)`
-- Use subtests with `t.Run()` for multiple scenarios
-- Table-driven tests for multiple test cases
-
-## Development Workflow
-
-### Adding New Features
-1. **Backend**: Create handler, service, repository, model in feature package
-2. **Frontend**: Create components in `src/components/` or `src/pages/`
-3. **API**: Add Swagger comments and run `task swag:init`
-4. **Testing**: Write tests for both backend and frontend
-5. **Linting**: Run `npm run lint` (frontend) and ensure Go code passes `go vet`
-
-### Code Quality
-- Frontend: ESLint configuration enforces React and TypeScript best practices
-- Backend: Use `go vet`, `go fmt`, and proper error handling
-- All code should be type-safe (TypeScript strict mode, Go strong typing)
-
-### File Organization
-- Keep related files together in feature directories
-- Use index files for re-exports when appropriate
-- Separate UI components from business logic components
-
-## Running Single Tests
-
-### Frontend
-```bash
-cd frontend
-npm test  # If test framework is added
-```
-
-### Backend
-```bash
-cd backend
-go test -v ./test                    # Run all tests in test package
-go test -v -run TestTimeInit ./test  # Run specific test
-go test -run TestUuid ./test         # Run specific test without verbose
-go test ./...                        # Run all tests in project
-```
-
-## Environment Variables
-
-### Backend
-- `ENV`: Set to "dev" or "prod" for different configurations
-- `GIN_MODE`: Set to "release" for production
-
-### Frontend
-- Uses Vite for environment configuration
-- Base path set to "/my-web-demo" in vite.config.ts
-
-## Notes
-
-- The Taskfile.yml contains outdated paths that need updating (react → frontend, gin → backend)
-- Swagger documentation is generated from comments and available in dev mode
-- The project uses RPC-style API design with method field in request bodies
-- Frontend uses Base UI components with custom styling via Tailwind CSS
+`task go:test`、`cd frontend && bun run typecheck`、`bun run format` 全部通过后再提交；提交信息用中文，风格与现有历史一致。
